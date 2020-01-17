@@ -5,8 +5,9 @@ const routes: Routes = [
 	{
 		path: '',
 		loadChildren: () => import('./starter-home/starter-home.module').then(m => m.StarterHomeModule)
-	},
-	{path: 'zhello',loadChildren: () => import('./zhello/zhello.module').then(m => m.ZhelloModule)}
+	}
+	,{path: 'zhello',loadChildren: () => import('./zhello/zhello.module').then(m => m.ZhelloModule)}
+	,{path: 'sqlview',loadChildren: () => import('./sqlview/sqlview.module').then(m => m.SqlviewModule)}
 
 ];
 

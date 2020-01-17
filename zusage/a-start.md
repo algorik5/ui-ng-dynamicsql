@@ -16,8 +16,3 @@
 - app-routing.module.ts > {path: 'zhello',loadChildren: () => import('./zhello/zhello.module').then(m => m.ZhelloModule)}
 - header.component.html > [route]="['zhello']"
 
-# grapesjs 페이지 추가
-- 레이아웃 디자인 - https://grapesjs.com/demo.html 
- - css 복사
- - html 복사
-
