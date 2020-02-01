@@ -18,6 +18,26 @@
 
 # test data
 ```
+CREATE TABLE "PERSONS"
+ (	
+    "NAME" VARCHAR2(20 BYTE) primary key,
+	"NATION" VARCHAR2(20 BYTE), 
+	"CITY" VARCHAR2(20 BYTE), 
+	"ADDRESS" VARCHAR2(20 BYTE), 
+	"AGE" NUMBER(10,0), 
+	"COMPANY" VARCHAR2(20 BYTE), 
+	"TIME" DATE
+ )
+
+Insert into PERSONS (NAME,NATION,CITY,ADDRESS,AGE,COMPANY,TIME) values ('aaa','korea','seoul','xxx',569,'ggg',sysdate);
+Insert into PERSONS (NAME,NATION,CITY,ADDRESS,AGE,COMPANY,TIME) values ('aa1','korea','seoul','xx1',787,'gg1',sysdate);
+Insert into PERSONS (NAME,NATION,CITY,ADDRESS,AGE,COMPANY,TIME) values ('aa2','korea','inchen','xx2',22,'gg2',sysdate);
+Insert into PERSONS (NAME,NATION,CITY,ADDRESS,AGE,COMPANY,TIME) values ('aa3','korea','busan','xx3',33,'gg',sysdate);
+Insert into PERSONS (NAME,NATION,CITY,ADDRESS,AGE,COMPANY,TIME) values ('bbb','us','newyork','bbb',33,'gg',sysdate);
+
+
+
+
  CREATE TABLE "EPOTEST"."PERSONS"
  (	
     "NAME" VARCHAR2(20 BYTE) NOT NULL ENABLE, 
