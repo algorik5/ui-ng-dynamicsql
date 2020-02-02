@@ -1,4 +1,17 @@
 
+codepen/codesandbox
+
+
+** design system : ms-ui fabric (react only) <<< https://brunch.co.kr/@ssin23/64
+*(ms) angular-react (ng에서 react compo사용)
+ - https://github.com/microsoft/angular-react
+ - https://stackblitz.com/edit/angular-react
+
+
+
+
+
+
 # sboot 
 - listen(consumer<string> con)... onmsg...consumer.accept(msg.get...
 - format : gap/total/elapse ...
