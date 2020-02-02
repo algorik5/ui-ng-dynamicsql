@@ -75,12 +75,20 @@ export class StompuiAboutComponent implements OnInit {
 
     this.stomp.sub(this.appdatasub).subscribe(payload=>{
       this.log.debug("appdata sub # "+ payload);
-      this.appdatareply = payload.body;//{"app":"app-2","ver":"v-2","count":2,"time":"2020-02-02 16:48:21","msg":"timer"}
+      this.appdatareply = payload.body;
       //alert("----"+ payload.body)
       let json = JSON.parse(payload.body);
-      this.mapadd("ver",json["app"],json["ver"]);
-      this.mapadd("count",json["app"],json["count"]);
-      this.mapadd("time",json["app"],json["time"]);
+
+      //{"app":"app-2","ver":"v-2","count":2,"time":"2020-02-02 16:48:21","msg":"timer"}
+      // this.mapadd("ver",json["app"],json["ver"]);
+      // this.mapadd("count",json["app"],json["count"]);
+      // this.mapadd("time",json["app"],json["time"]);
+      
+      //last={"GAP":{"SRT":2,"END":2,"ERR":2},"TOTAL":{"SRT":2,"END":2,"ERR":2},"APP":{"app":"app-2","ver":"v-2","count":11,"time":"2020-02-02 17:26:12"}}      
+      this.mapadd("ver",json["APP"]["app"],json["APP"]["ver"]);
+      this.mapadd("time",json["APP"]["app"],json["APP"]["time"]);
+      this.mapadd("start",json["APP"]["app"],json["GAP"]["SRT"]);
+      this.mapadd("error",json["APP"]["app"],json["GAP"]["ERR"]);
     })
     //this.stomp.pub(this.timerpub,{count:this.no,msg:"timer"});
   }
