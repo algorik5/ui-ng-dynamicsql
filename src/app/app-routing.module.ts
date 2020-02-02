@@ -8,6 +8,7 @@ const routes: Routes = [
 	}
 	,{path: 'zhello',loadChildren: () => import('./zhello/zhello.module').then(m => m.ZhelloModule)}
 	,{path: 'sqlview',loadChildren: () => import('./sqlview/sqlview.module').then(m => m.SqlviewModule)}
+	,{path: 'stompui',loadChildren: () => import('./stompui/stompui.module').then(m => m.StompuiModule)}
 
 ];
 

@@ -1,0 +1,57 @@
+<div class="row" id="irqq">
+    <div class="cell" id="it8t">
+      <div class="row">
+        <div class="cell" id="iy9o1">
+          <div id="ix0se">
+            <!-- <ibm-search theme="light" placeholder="id" autocomplete="off" disabled="false"  (valueChange)="valueChange($event)" (clear)="clear()"> </ibm-search> -->
+            <!-- <ibm-search placeholder="Nation" theme="dark" size="sm" (valueChange)="searchChange($event)" (clear)="searchClear($event)"> </ibm-search>
+            <ibm-tag type="blue" *ngFor='let nation of nations' (click)='clickNation(nation)'>{{nation}}</ibm-tag> -->
+            <input ibmText [(ngModel)]="wsurl"/>
+            <button ibmButton="secondary" size="sm" (click)="clickConnect($event)">Connect</button>
+            &nbsp; <button ibmButton="secondary" size="sm" (click)="clickDisconnect($event)">Disconnect</button>
+            <ibm-tag type="blue">connect={{isConnected()}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iqq8k">
+          <div id="i9grr">
+            <input ibmText [(ngModel)]="stomppub"/>
+            <button ibmButton="secondary" size="sm" (click)="clickPub($event)">Pub</button>
+            <ibm-tag type="blue">reply={{pubreply}}</ibm-tag>
+        
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">
+            <input ibmText [(ngModel)]="stompsub"/>
+            <button ibmButton="secondary" size="sm" (click)="clickSub($event)">Sub</button>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" id="ie2y">
+      <div class="row">
+      </div>
+      <div class="row" id="i3tm">
+        <div class="cell" id="ib7j">
+            <!-- <ibm-table [model]="model" [size]="size" [skeleton]="skeleton" [showSelectionColumn]="showSelectionColumn" [striped]="striped" sortable="true" [isDataGrid]="isDataGrid"> </ibm-table> -->
+            <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
+        </div>
+      </div>
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+            <button ibmButton="secondary" size="sm" (click)="clickUpdate($event)">Update</button>
+            <ng-container *ngFor='let data of selectData'>
+                <ibm-label labelState="success">
+                    <label label>{{data['key']}}</label>
+                    <input ibmText value="{{data['value']}}"/>
+                </ibm-label>
+            </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>

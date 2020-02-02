@@ -1,3 +1,10 @@
+# service는 모듈 사용하지 않음
+- ng g s aservices/stomp
+- constructor(private stomp:StompService)
+
+# 양방향 바인딩
+- <input ibmText [(ngModel)]="var1">
+
 # http 
 - module.ts
   - import {HttpClientModule} from '@angular/common/http';
@@ -9,6 +16,7 @@
       res=>{ this.nations = res.map(o=>{return o['NATION']}); }
       ,err=>{ LogUtil.alert('------'+ JSON.stringify(err)) }
     );
+
 
 
 

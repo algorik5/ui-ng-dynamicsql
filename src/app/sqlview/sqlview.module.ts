@@ -4,7 +4,8 @@ import {HttpClientModule} from '@angular/common/http';
 
 import { SqlviewRoutingModule } from './sqlview-routing.module';
 import { SqlviewAboutComponent } from './sqlview-about/sqlview-about.component';
-import { InputModule, ButtonModule, TagModule, TableModule, SearchModule } from 'carbon-components-angular';
+import { InputModule, ButtonModule, TagModule, TableModule, SearchModule, GridModule } from 'carbon-components-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -12,10 +13,13 @@ import { InputModule, ButtonModule, TagModule, TableModule, SearchModule } from 
   imports: [
     CommonModule,
     InputModule,
+    SearchModule,
     ButtonModule,
     TagModule,
     TableModule,
-    SearchModule,
+    GridModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     SqlviewRoutingModule
   ]
