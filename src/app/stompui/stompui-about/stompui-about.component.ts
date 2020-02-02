@@ -5,6 +5,7 @@ import { LogUtil } from 'src/app/util/LogUtil';
 import { ObjectUtil } from 'src/app/util/ObjectUtil';
 import { MathUtil } from 'src/app/util/MathUtil';
 import { StompService } from 'src/app/aservices/stomp.service';
+import { LogService } from 'src/app/aservices/log.service';
 
 @Component({
   selector: 'app-stompui-about',
@@ -13,15 +14,15 @@ import { StompService } from 'src/app/aservices/stomp.service';
 })
 export class StompuiAboutComponent implements OnInit {
 
-  constructor(private log:Log,private stomp:StompService) { }
+  constructor(private log:LogService,private stomp:StompService) { 
+    this.mapinit();
+  }
 
   ngOnInit() {
   }
-  ////////////////////////////////////////////////////////// tag
-  wsurl = "ws://localhost:18080/websocket";
-  stomppub = "/toserver/hello";
-  stompsub = "/toclient/hello";
 
+  ////////////////////////////////////////////////////////// connect 
+  wsurl = "ws://localhost:18080/websocket";
   clickConnect()
   {
     this.stomp.connect(this.wsurl);
@@ -34,17 +35,74 @@ export class StompuiAboutComponent implements OnInit {
   { 
     return this.stomp.isConnected(); 
   }
+
+  ////////////////////////////////////////////////////////// pub
+  hellopub = "/toserver/hello";
+  hellosub = "/toclient/hello";
+  helloreply = "-";
   no = 0;
-  pubreply = "-";
   clickPub()
   {
     this.no++;
-    this.stomp.sub(this.stompsub).subscribe(payload=>{
-      this.log.
-      this.pubreply = payload;
+    this.stomp.sub(this.hellosub).subscribe(payload=>{
+      this.log.debug("hello sub # "+ payload);
+      this.helloreply = payload.body;
     })
-    this.stomp.pub(this.stomppub,{count:this.no,msg:"hello"});
+    this.stomp.pub(this.hellopub,{count:this.no,msg:"hello"});
   }
+
+  ////////////////////////////////////////////////////////// sub
+  timerpub = "/toserver/timer";
+  timersub = "/toclient/timer";
+  timerreply = "-";
+  clickSub()
+  {
+    this.no++;
+    this.stomp.sub(this.timersub).subscribe(payload=>{
+      this.log.debug("timer sub # "+ payload);
+      this.timerreply = payload.body;
+    })
+    //this.stomp.pub(this.timerpub,{count:this.no,msg:"timer"});
+  }
+
+  ////////////////////////////////////////////////////////// sub
+  appdatasub = "/toclient/appdata";
+  appdatareply = "-";
+  clickAppdataSub()
+  {
+    this.no++;
+    this.mapclear();
+
+    this.stomp.sub(this.appdatasub).subscribe(payload=>{
+      this.log.debug("appdata sub # "+ payload);
+      this.appdatareply = payload.body;//{"app":"app-2","ver":"v-2","count":2,"time":"2020-02-02 16:48:21","msg":"timer"}
+      //alert("----"+ payload.body)
+      let json = JSON.parse(payload.body);
+      this.mapadd("ver",json["app"],json["ver"]);
+      this.mapadd("count",json["app"],json["count"]);
+      this.mapadd("time",json["app"],json["time"]);
+    })
+    //this.stomp.pub(this.timerpub,{count:this.no,msg:"timer"});
+  }
+
+  ////////////////////////////////////////////////////////// map 
+  map : Map<string,Map<string,string>>;// = new Map();
+  mapclear() { this.map.clear(); }
+  mapkeys(){ return Array.from(this.map.keys()); }
+  mapchildkeys(type) { return Array.from(this.map.get(type).keys()).sort(); }
+  mapchildvalue(type,key){ return this.map.get(type).get(key); }
+  mapadd(type,key,value) {
+    if(this.map.has(type)==false) { this.map.set(type,new Map<string,string>()); }
+    this.map.get(type).set(key,value);
+  }
+  mapinit() { 
+    this.map = new Map();
+    this.mapadd("ver","app1","v1"); this.mapadd("ver","app2","v2");
+    this.mapadd("uptime","app1","u1");
+  }
+    
+
+
   // clickCity(city)
   // {
   //   this.curCity = city;

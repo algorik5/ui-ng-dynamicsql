@@ -13,7 +13,7 @@
 
 # carbon 넣기
 - stompui-module.ts : imports 추가 
-  - carbon : InputModule, ButtonModule, TagModule, TableModule,SearchModule,GridModule
+  - carbon : InputModule, ButtonModule, TagModule, TableModule,SearchModule,GridModule,StructuredListModule
   - ng : FormsModule,ReactiFormsModule,HttpClientModule
   - 기타 : ngxjsonviewermodule
 

@@ -16,9 +16,9 @@
       <div class="row">
         <div class="cell" id="iqq8k">
           <div id="i9grr">
-            <input ibmText [(ngModel)]="stomppub"/>
+            <input ibmText [(ngModel)]="hellopub"/>
             <button ibmButton="secondary" size="sm" (click)="clickPub($event)">Pub</button>
-            <ibm-tag type="blue">reply={{pubreply}}</ibm-tag>
+            <ibm-tag type="blue">reply={{helloreply}}</ibm-tag>
         
           </div>
         </div>
@@ -26,12 +26,24 @@
       <div class="row">
         <div class="cell" id="iu3x9">
           <div id="id3yi">
-            <input ibmText [(ngModel)]="stompsub"/>
+            <input ibmText [(ngModel)]="timersub"/>
             <button ibmButton="secondary" size="sm" (click)="clickSub($event)">Sub</button>
+            <ibm-tag type="blue">reply={{timerreply}}</ibm-tag>
               
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="cell" id="iqq8k">
+          <div id="i9grr">
+            <input ibmText [(ngModel)]="appdatasub"/>
+            <button ibmButton="secondary" size="sm" (click)="clickAppdataSub($event)">Appdata Sub</button>
+            <ibm-tag type="blue">last={{appdatareply}}</ibm-tag>
+        
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="cell" id="ie2y">
       <div class="row">
@@ -39,18 +51,45 @@
       <div class="row" id="i3tm">
         <div class="cell" id="ib7j">
             <!-- <ibm-table [model]="model" [size]="size" [skeleton]="skeleton" [showSelectionColumn]="showSelectionColumn" [striped]="striped" sortable="true" [isDataGrid]="isDataGrid"> </ibm-table> -->
-            <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
+            <!-- <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table> -->
+
+            <div ibmGrid condensed="true">
+              <div ibmRow gutter="true" leftGutter="true" rightGutter="true" condensed="true">
+                <ng-container *ngFor="let type of mapkeys();let i=index">
+                  <div ibmCol class="custom-class-example" [columnNumbers]="{'md': 2, 'sm': 12}">{{type}}
+
+                    <ibm-structured-list border="true" condensed="true" nowrap="true">
+                      <ibm-list-header>
+                        <ibm-list-column nowrap="true">Column 1</ibm-list-column>
+                        <ibm-list-column>Column 2</ibm-list-column>
+                      </ibm-list-header>
+
+                      <ng-container *ngFor="let key of mapchildkeys(type);let i2=index">
+                        <ibm-list-row>
+                          <ibm-list-column>{{key}}</ibm-list-column>
+                          <ibm-list-column>{{mapchildvalue(type,key)}}
+                          </ibm-list-column>
+                        </ibm-list-row>
+                      </ng-container>
+
+                    </ibm-structured-list>                
+                  </div>
+
+              </ng-container>
+              </div>
+           </div>
         </div>
       </div>
+
       <div class="row" id="impx">
         <div class="cell" id="ipj4">
             <button ibmButton="secondary" size="sm" (click)="clickUpdate($event)">Update</button>
-            <ng-container *ngFor='let data of selectData'>
+            <!-- <ng-container *ngFor='let data of selectData'>
                 <ibm-label labelState="success">
                     <label label>{{data['key']}}</label>
                     <input ibmText value="{{data['value']}}"/>
                 </ibm-label>
-            </ng-container>
+            </ng-container> -->
         </div>
       </div>
     </div>

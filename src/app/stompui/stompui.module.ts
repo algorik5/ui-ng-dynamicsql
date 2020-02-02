@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StompuiRoutingModule } from './stompui-routing.module';
 import { StompuiAboutComponent } from './stompui-about/stompui-about.component';
-import { InputModule, SearchModule, ButtonModule, TagModule, TableModule, GridModule } from 'carbon-components-angular';
+import { InputModule, SearchModule, ButtonModule, TagModule, TableModule, GridModule, StructuredListModule } from 'carbon-components-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     TagModule,
     TableModule,
     GridModule,
+    StructuredListModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
