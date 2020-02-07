@@ -10,6 +10,7 @@ export class StompService {
 
   constructor(private log:LogService) { }
 
+  debug = false;
   stompConfig = {
     connectHeaders: {
       login: "guest",
@@ -17,7 +18,7 @@ export class StompService {
     },
     brokerURL: "ws://localhost:18080/websocket",
     debug: function (str) {
-      console.log('### STOMP debug : ' + str);
+      if(this.debug) console.log('### STOMP debug : ' + str);
     },
     reconnectDelay: 1000,// auto reconnect
   };

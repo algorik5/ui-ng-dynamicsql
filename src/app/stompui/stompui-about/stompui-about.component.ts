@@ -6,6 +6,7 @@ import { ObjectUtil } from 'src/app/util/ObjectUtil';
 import { MathUtil } from 'src/app/util/MathUtil';
 import { StompService } from 'src/app/aservices/stomp.service';
 import { LogService } from 'src/app/aservices/log.service';
+import { DateUtil } from 'src/app/util/DateUtil';
 
 @Component({
   selector: 'app-stompui-about',
@@ -67,6 +68,7 @@ export class StompuiAboutComponent implements OnInit {
   ////////////////////////////////////////////////////////// sub
   appdatasub = "/toclient/appdata";
   appdatareply = "-";
+  appdatatime = "-";
   appdatasubstop = false;
   clickAppdataStop(){ this.appdatasubstop = true; }
   clickAppdataClear(){ this.mapchildclear(); }
@@ -86,12 +88,15 @@ export class StompuiAboutComponent implements OnInit {
   {
     if(this.appdatasubstop==true) { LogUtil.alert("appdatasubstop"); return; }
     this.no++;
+    this.curKey = null;
+    this.appdatasubstop = false;
     this.mapclear();
 
     this.stomp.sub(this.appdatasub).subscribe(payload=>{
       //this.log.debug("appdata sub # "+ payload);
+      this.appdatatime = DateUtil.currentDateString_mmss();
       this.appdatareply = payload.body;
-      if(this.appdatareply.length > 30) this.appdatareply = this.appdatareply.substring(0,30);
+      if(this.appdatareply.length > 40) this.appdatareply = this.appdatareply.substring(0,40);
       let json = JSON.parse(payload.body);
 
       //{"app":"app-2","ver":"v-2","count":2,"time":"2020-02-02 16:48:21","msg":"timer"}
