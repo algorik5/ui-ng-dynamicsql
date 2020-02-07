@@ -1,0 +1,104 @@
+<p>timeseries-about works!</p>
+<div class="row" id="irqq">
+    <div class="cell" id="it8t">
+      <div class="row">
+        <div class="cell" id="iy9o1">
+          <div id="ix0se">
+            <!-- <ibm-search theme="light" placeholder="id" autocomplete="off" disabled="false"  (valueChange)="valueChange($event)" (clear)="clear()"> </ibm-search> -->
+            <!-- <ibm-search placeholder="Nation" theme="dark" size="sm" (valueChange)="searchChange($event)" (clear)="searchClear($event)"> </ibm-search>
+            <ibm-tag type="blue" *ngFor='let nation of nations' (click)='clickNation(nation)'>{{nation}}</ibm-tag> -->
+            <input ibmText [(ngModel)]="wsurl"/>
+            <button ibmButton="secondary" size="sm" (click)="clickConnect($event)">Connect</button>
+            &nbsp; <button ibmButton="secondary" size="sm" (click)="clickDisconnect($event)">Disconnect</button>
+            <ibm-tag type="blue">connect={{isConnected()}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iqq8k">
+          <div id="i9grr">
+            <input ibmText [(ngModel)]="appdatasub"/>
+            <button ibmButton="secondary" size="sm" (click)="clickAppdataSub($event)">Sub</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataStop($event)">Stop</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataClear($event)">Clear</button>
+            <ibm-tag type="blue">time={{appdatatime}}</ibm-tag>
+            <ibm-tag type="blue">data={{appdatareply}}</ibm-tag>
+        
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of mapkeys()' (click)='clickKey(key)'>{{key}}</ibm-tag>
+              
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="cell" id="ie2y">
+      <div class="row">
+      </div>
+      <div class="row" id="i3tm">
+        <div class="cell" id="ib7j">
+
+            
+            <p-treeTable [value]="treetabledata">
+                <ng-template pTemplate="header" let-columns> 
+                    <tr> 
+                        <th *ngFor="let col of treetablecolumns"> {{col}} </th> 
+                    </tr> 
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr>
+                        <td *ngFor="let col of treetablecolumns; let i = index">
+                            <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                            {{rowData[col]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>        
+    
+    
+
+
+
+
+            <!-- <div ibmGrid condensed="true">
+              <div ibmRow gutter="true" leftGutter="true" rightGutter="true" condensed="true">
+                <ng-container *ngFor="let type of mapkeys();let i=index">
+                  <div ibmCol class="custom-class-example" [columnNumbers]="{'md': 2, 'sm': 12}">{{type}}
+
+                    <ibm-structured-list border="true" condensed="true" nowrap="true">
+                      <ibm-list-header>
+                        <ibm-list-column nowrap="true">key</ibm-list-column>
+                        <ibm-list-column>value</ibm-list-column>
+                      </ibm-list-header>
+
+                      <ng-container *ngFor="let key of mapchildkeys(type);let i2=index">
+                        <ibm-list-row>
+                          <ibm-list-column>{{key}}</ibm-list-column>
+                          <ibm-list-column>{{mapchildvalue(type,key)}}
+                          </ibm-list-column>
+                        </ibm-list-row>
+                      </ng-container>
+
+                    </ibm-structured-list>                
+                  </div>
+
+              </ng-container>
+              </div>
+           </div> -->
+
+        </div>
+      </div>
+
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+            <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+        </div>
+      </div>
+    </div>
+  </div>

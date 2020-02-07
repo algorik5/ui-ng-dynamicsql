@@ -9,6 +9,7 @@ const routes: Routes = [
 	,{path: 'zhello',loadChildren: () => import('./zhello/zhello.module').then(m => m.ZhelloModule)}
 	,{path: 'sqlview',loadChildren: () => import('./sqlview/sqlview.module').then(m => m.SqlviewModule)}
 	,{path: 'stompui',loadChildren: () => import('./stompui/stompui.module').then(m => m.StompuiModule)}
+	,{path: 'jsontree',loadChildren: () => import('./jsontree/jsontree.module').then(m => m.JsontreeModule)}
 	,{path: 'timeseries',loadChildren: () => import('./timeseries/timeseries.module').then(m => m.TimeseriesModule)}
 
 ];
