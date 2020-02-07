@@ -12,7 +12,7 @@
 ## test
 - server start (algorik5/server-sboot-dynamicsql)
 - git clone ...
-- npm insta
+- npm install
 - ng serve
 - http://localhost:4200/
 
