@@ -37,12 +37,23 @@
         <div class="cell" id="iqq8k">
           <div id="i9grr">
             <input ibmText [(ngModel)]="appdatasub"/>
-            <button ibmButton="secondary" size="sm" (click)="clickAppdataSub($event)">Appdata Sub</button>
+            <button ibmButton="secondary" size="sm" (click)="clickAppdataSub($event)">Sub</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataStop($event)">Stop</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataClear($event)">Clear</button>
             <ibm-tag type="blue">last={{appdatareply}}</ibm-tag>
         
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of mapkeysall()' (click)='clickKey(key)'>{{key}}</ibm-tag>
+              
+          </div>
+        </div>
+      </div>
+
 
     </div>
     <div class="cell" id="ie2y">
@@ -81,16 +92,10 @@
         </div>
       </div>
 
-      <div class="row" id="impx">
+      <!-- <div class="row" id="impx">
         <div class="cell" id="ipj4">
             <button ibmButton="secondary" size="sm" (click)="clickUpdate($event)">Update</button>
-            <!-- <ng-container *ngFor='let data of selectData'>
-                <ibm-label labelState="success">
-                    <label label>{{data['key']}}</label>
-                    <input ibmText value="{{data['value']}}"/>
-                </ibm-label>
-            </ng-container> -->
         </div>
-      </div>
+      </div> -->
     </div>
   </div>

@@ -64,19 +64,34 @@ export class StompuiAboutComponent implements OnInit {
     })
     //this.stomp.pub(this.timerpub,{count:this.no,msg:"timer"});
   }
-
   ////////////////////////////////////////////////////////// sub
   appdatasub = "/toclient/appdata";
   appdatareply = "-";
+  appdatasubstop = false;
+  clickAppdataStop(){ this.appdatasubstop = true; }
+  clickAppdataClear(){ this.mapchildclear(); }
+  curKey;
+  clickKey(key){
+    this.curKey = key;
+    //this.mapclear();
+  }
+  tagColor(name)
+  {
+    if(name.includes("ERR")) return "red";
+    if(name.includes("ver")) return "red";
+    if(name.includes("xxx")) return "green";
+    return "blue";
+  }
   clickAppdataSub()
   {
+    if(this.appdatasubstop==true) { LogUtil.alert("appdatasubstop"); return; }
     this.no++;
     this.mapclear();
 
     this.stomp.sub(this.appdatasub).subscribe(payload=>{
-      this.log.debug("appdata sub # "+ payload);
+      //this.log.debug("appdata sub # "+ payload);
       this.appdatareply = payload.body;
-      //alert("----"+ payload.body)
+      if(this.appdatareply.length > 30) this.appdatareply = this.appdatareply.substring(0,30);
       let json = JSON.parse(payload.body);
 
       //{"app":"app-2","ver":"v-2","count":2,"time":"2020-02-02 16:48:21","msg":"timer"}
@@ -85,18 +100,72 @@ export class StompuiAboutComponent implements OnInit {
       // this.mapadd("time",json["app"],json["time"]);
       
       //last={"GAP":{"SRT":2,"END":2,"ERR":2},"TOTAL":{"SRT":2,"END":2,"ERR":2},"APP":{"app":"app-2","ver":"v-2","count":11,"time":"2020-02-02 17:26:12"}}      
-      this.mapadd("ver",json["APP"]["app"],json["APP"]["ver"]);
-      this.mapadd("time",json["APP"]["app"],json["APP"]["time"]);
-      this.mapadd("start",json["APP"]["app"],json["GAP"]["SRT"]);
-      this.mapadd("error",json["APP"]["app"],json["GAP"]["ERR"]);
-    })
-    //this.stomp.pub(this.timerpub,{count:this.no,msg:"timer"});
+      // this.mapadd("ver",json["app"],json["APP"]["ver"]);
+      // this.mapadd("time",json["app"],json["APP"]["time"]);
+      // this.mapadd("start",json["app"],json["GAP"]["SRT"]);
+      // this.mapadd("error",json["APP"]["app"],json["GAP"]["ERR"]);
+
+      //if array.isarray(json)==false) json.foreach(data,index)=>mapadd(cpu,procname,data[cpu]...maptimeadd(...,data[time]...mapadd(memory...
+        //      if app..object.keys(json)...object.keys(json[type]..mapadd...
+
+      //{_type_=GAP_DATA, GAP={SRT=0, END=0, ERR=0}, TOTAL={SRT=0, END=0, ERR=0}, app=app-0, ver=v-0, count=69, time=2020-02-07 17:38:40}
+      //{_type_=PROCESS_DATA, datas=[{process=0, host=0, time=2020-02-07 17:39:30, cpu=0, memory=0}, {process=1, host=1, time=2020-02-07 17:39:30, cpu=1, memory=1}, {process=2, host=2, time=2020-02-07 17:39:30, cpu=2, memory=2}]}
+      Object.keys(json).forEach((k,i)=>{//GAP,TOTAL
+        let data = json[k];
+        if(typeof data != 'object') return;//_type_,app
+        if(Array.isArray(data)==false)
+        {
+          Object.keys(data).forEach((k2,i2)=>{//SRT,END
+            let datatype = k+"."+k2;//GAP.SRT
+            let datakey = json["app"];
+            let datavalue = data[k2];
+            this.mapadd(datatype,datakey,datavalue);
+          });
+        }
+        else//array - datas
+        {
+          data.forEach((data2,i2)=>{//{process=0, host=0
+            Object.keys(data2).forEach((k3,i3)=>{//process,host,cpu
+              let datatype = k+"."+k3;//datas.cpu
+              let datakey = data2["process"]+"."+data2["host"];
+              let datavalue = data2[k3];
+              this.mapadd(datatype,datakey,datavalue);
+            });
+          });
+        }
+          // let data2 = data[k2];
+            // if(typeof data2 != 'object') return;
+            // if(Array.isArray(data)==false)
+            // {
+            //   Object.keys(json[k]).forEach((k2,i2)=>{//SRT,END
+            //     let datakey = json["app"];
+            //     this.mapadd(k+"."+k2,datakey,json[k][k2]);
+            //   });
+            // }
+            // else
+            // {
+            //   data.forEach((data2,i2)=>{
+            //     Object.keys(data2).forEach((k3,i3)=>{
+            //       let datakey = json["app"];
+            //       this.mapadd(k+"."+k3,datakey,data2[k3]);
+            //     });
+            //   });
+            // }
+          // });
+        // }
+      });
+    });
   }
 
   ////////////////////////////////////////////////////////// map 
   map : Map<string,Map<string,string>>;// = new Map();
   mapclear() { this.map.clear(); }
-  mapkeys(){ return Array.from(this.map.keys()); }
+  mapchildclear() { this.map.forEach((k,v)=>{ k.clear(); }) }
+  mapkeys(){ 
+    if(this.curKey != null && this.curKey != 'all') return [this.curKey];//tag가 선택되면 해당 tag만 리턴 > 오른쪽화면에 해당 tag만 표시
+    return Array.from(this.map.keys()); 
+  }//if(this.map.size < 1) return []; 
+  mapkeysall(){ return ["all"].concat(Array.from(this.map.keys())); }//if(this.map.size < 1) return []; 
   mapchildkeys(type) { return Array.from(this.map.get(type).keys()).sort(); }
   mapchildvalue(type,key){ return this.map.get(type).get(key); }
   mapadd(type,key,value) {

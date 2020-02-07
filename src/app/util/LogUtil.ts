@@ -4,4 +4,9 @@ export class LogUtil
     {
         alert('--------- alert # '+ msg);
     }
+    static debug(msg)
+    {
+        console.log('--------- debug # '+ msg);
+    }
+
 }

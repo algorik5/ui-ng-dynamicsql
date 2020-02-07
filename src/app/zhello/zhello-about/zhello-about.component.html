@@ -1,1 +1,66 @@
 <p>zhello-about works!</p>
+
+
+<ibm-tabs [followFocus]="followFocus" [isNavigation]="isNavigation">
+    <ibm-tab heading="ngx-json-viewer">
+      <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+    </ibm-tab>
+
+    <ibm-tab heading="defiant">
+      <ibm-tag type="blue" *ngFor='let path of paths' (click)='clickPath(path)'>{{path}}</ibm-tag>
+      <h2>source</h2>
+      <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+      <h2>search</h2>
+      <ngx-json-viewer [json]="searchObject" [expanded]="true"></ngx-json-viewer>
+    </ibm-tab>
+
+    <ibm-tab heading="hansometable">
+        <ibm-tag type="blue" (click)='clickChangeData(event)'>Change Data(2click)</ibm-tag>
+        <hot-table [hotId]="hotId" [settings]="hotSettings" [data]="hotDatas" licenseKey="non-commercial-and-evaluation"></hot-table>
+        <ngx-json-viewer [json]="hotDatas" [expanded]="true"></ngx-json-viewer>
+    </ibm-tab>
+
+    <ibm-tab heading="alasql">
+        <ibm-tag type="blue" (click)='clickDBCreate(event)'>DB Create</ibm-tag>
+        <ibm-tag type="blue" (click)='clickDBCreateTable(event)'>DB CreateTable</ibm-tag>
+        <ibm-tag type="blue" (click)='clickDBInsert(event)'>DB insert</ibm-tag>
+        <ibm-tag type="blue" (click)='clickDBSelect(event)'>DB select</ibm-tag>
+        <ibm-tag type="blue" (click)='clickDBSelectToHansometable(event)'>DB select to hansometable(2click)</ibm-tag>
+        
+        <!-- <h4>hansometable=========================</h4>
+        <hot-table [hotId]="hotId" [settings]="hotSettings" [data]="hotDatas" licenseKey="non-commercial-and-evaluation"></hot-table> -->
+        <h4>result=========================</h4>
+        <ngx-json-viewer [json]="rs" [expanded]="true"></ngx-json-viewer>
+        <h4>db=========================</h4>
+        <ngx-json-viewer [json]="db" [expanded]="true"></ngx-json-viewer>
+        <!-- <ibm-code-snippet display="multi" expanded="true">{{this.db}}</ibm-code-snippet> -->
+        <h4>hansometable=========================</h4>
+        <hot-table [hotId]="hotId1" [settings]="hotSettings1" [data]="hotDatas1" licenseKey="non-commercial-and-evaluation"></hot-table>
+                
+    </ibm-tab>
+
+    <ibm-tab heading="treetable/primeng">
+        <p-treeTable [value]="treetabledata">
+            <ng-template pTemplate="header" let-columns> 
+                <tr> 
+                    <th *ngFor="let col of treetablecolumns"> {{col}} </th> 
+                </tr> 
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr>
+                    <td *ngFor="let col of treetablecolumns; let i = index">
+                        <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                        {{rowData[col]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-treeTable>        
+        <h2>source</h2>
+        <ngx-json-viewer [json]="treetabledata" [expanded]="true"></ngx-json-viewer>
+      </ibm-tab>
+  
+
+
+
+</ibm-tabs>
+
