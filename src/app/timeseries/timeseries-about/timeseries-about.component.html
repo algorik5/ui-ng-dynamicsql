@@ -41,7 +41,7 @@
         <div class="cell" id="ib7j">
 
             
-            <p-treeTable [value]="treetabledata">
+            <p-treeTable [value]="treetabledata" selectionMode="checkbox" [(selection)]="treetableselectdata" (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)">
                 <ng-template pTemplate="header" let-columns> 
                     <tr> 
                         <th *ngFor="let col of treetablecolumns"> {{col}} </th> 
@@ -51,49 +51,42 @@
                     <tr>
                         <td *ngFor="let col of treetablecolumns; let i = index">
                             <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                            <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0"></p-treeTableCheckbox>
+                            <!-- <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0" (click)="clicktreecheck(rowData)"></p-treeTableCheckbox> -->
                             {{rowData[col]}}
                         </td>
                     </tr>
                 </ng-template>
             </p-treeTable>        
     
-    
+        </div>
+      </div>
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+            <button ibmButton="secondary" size="sm" (click)="clickCreateTable($event)">Create Table</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickxxx($event)">xxx</button>
 
+            <!-- 느림 <ngx-json-viewer [json]="treetableselectdata" [expanded]="true"></ngx-json-viewer> -->
+            <!-- <ibm-tab heading="table"> -->
+              <!-- <div> -->
+              <!-- <ng-scrollbar> -->
+                <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
+              <!-- </ng-scrollbar> -->
+              <!-- </div> -->
+            <!-- </ibm-tab> -->
+            <!-- <ibm-tab heading="data">
+              ...
+            </ibm-tab> -->
 
-
-
-            <!-- <div ibmGrid condensed="true">
-              <div ibmRow gutter="true" leftGutter="true" rightGutter="true" condensed="true">
-                <ng-container *ngFor="let type of mapkeys();let i=index">
-                  <div ibmCol class="custom-class-example" [columnNumbers]="{'md': 2, 'sm': 12}">{{type}}
-
-                    <ibm-structured-list border="true" condensed="true" nowrap="true">
-                      <ibm-list-header>
-                        <ibm-list-column nowrap="true">key</ibm-list-column>
-                        <ibm-list-column>value</ibm-list-column>
-                      </ibm-list-header>
-
-                      <ng-container *ngFor="let key of mapchildkeys(type);let i2=index">
-                        <ibm-list-row>
-                          <ibm-list-column>{{key}}</ibm-list-column>
-                          <ibm-list-column>{{mapchildvalue(type,key)}}
-                          </ibm-list-column>
-                        </ibm-list-row>
-                      </ng-container>
-
-                    </ibm-structured-list>                
-                  </div>
-
-              </ng-container>
-              </div>
-           </div> -->
 
         </div>
       </div>
 
       <div class="row" id="impx">
         <div class="cell" id="ipj4">
+          <ng-scrollbar>
             <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+          </ng-scrollbar>
         </div>
       </div>
     </div>

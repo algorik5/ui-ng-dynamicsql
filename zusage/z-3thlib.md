@@ -5,6 +5,14 @@
 - module.ts - NgScrollbarModule
 - html - <ng-scrollbar> ... </ng-scrollbar>
 
+# flatted - circular 에러
+- 사용하지마 - 출력값이 이상함
+- 내장되어 있음 - install 불필요
+- angular.json
+  - scripts : "node_modules/flatted/min.js",
+- ts : 
+  - declare var Flatted;
+  - Flatted.stringify(json);
 
 # ngx-json-viewer
 - npm install ngx-json-viewer
@@ -50,6 +58,7 @@
   - pstmt : 테스트 실패
 
 # treetable - primeng
+- (참고-checkbox,selection 등) https://primefaces.org/primeng/#/treetable/selection
 - npm install @angular/cdk
 - npm install primeng primeicons
 - angular.json

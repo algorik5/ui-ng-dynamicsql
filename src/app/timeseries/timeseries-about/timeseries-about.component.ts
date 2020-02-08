@@ -3,6 +3,10 @@ import { LogUtil } from 'src/app/util/LogUtil';
 import { StompService } from 'src/app/aservices/stomp.service';
 import { LogService } from 'src/app/aservices/log.service';
 import { DateUtil } from 'src/app/util/DateUtil';
+import { TreeNode } from 'primeng/api';
+import { TableModel, TableHeaderItem, TableItem } from 'carbon-components-angular';
+
+declare var Flatted;
 
 @Component({
   selector: 'app-timeseries-about',
@@ -45,13 +49,70 @@ export class TimeseriesAboutComponent implements OnInit {
   treetablecolumns = [];
   treetabledata = [];
   inittreetabledata(){
-    this.treetabledata = [ 
-      { "data":{ "name":"Documents", "value":"75kb", "type":"Folder" },"children":[{ "data":{ "name":"Work", "size":"55kb", "type":"Folder" }, "children":[{ "data":{ "name":"Expenses.doc", "size":"30kb", "type":"Document" } }, { "data":{ "name":"Resume.doc", "size":"25kb", "type":"Resume" } }]}, 
-      { "data":{ "name":"Home", "size":"20kb", "type":"Folder" },"children":[ { "data":{ "name":"Invoices", "size":"20kb", "type":"Text" } } ] } ] }, 
-      { "data":{ "name":"Pictures", "size":"150kb", "type":"Folder" },"children":[ { "data":{ "name":"barcelona.jpg", "size":"90kb", "type":"Picture" } }, { "data":{ "name":"primeui.png", "size":"30kb", "type":"Picture" } }, { "data":{ "name":"optimus.jpg", "size":"30kb", "type":"Picture" } } ] } 
+    this.treetabledata = 
+    [ 
+      { "data":{ "name":"Documents", "value":"75kb", "type":"Folder","path":"-" }
+        ,"children":
+        [
+          { "data":{ "name":"Work", "value":"55kb", "type":"Folder","path":"-" }
+          ,"children":[{ "data":{ "name":"Expenses.doc", "value":"30kb", "type":"Document","path":"-",} }, { "data":{ "name":"Resume.doc", "value":"25kb", "type":"Resume","path":"-" } }]}, 
+          { "data":{ "name":"Home", "value":"20kb", "type":"Folder","path":"-" }
+          ,"children":[ { "data":{ "name":"Invoices", "value":"20kb", "type":"Text","path":"-" } } ] } 
+        ] }, 
+      { "data":{ "name":"Pictures", "value":"150kb", "type":"Folder","path":"-" }
+      ,"children":[ { "data":{ "name":"barcelona.jpg", "value":"90kb", "type":"Picture","path":"-" } }, { "data":{ "name":"primeui.png", "value":"30kb", "type":"Picture","path":"-" } }, { "data":{ "name":"optimus.jpg", "value":"30kb", "type":"Picture","path":"-" } } ] } 
     ];
-    this.treetablecolumns = Object.keys(this.treetabledata[0]["data"]);
+    this.treetablecolumns = Object.keys(this.treetabledata[0]["data"]);//
   }
+  treetableselectdata = [];//TreeNode[];
+  treetableselectdatakeys(){ if(this.treetableselectdata == null || this.treetableselectdata.length < 1) return []; return Object.keys(this.treetableselectdata[0].node); }
+  //clicktreecheck(data,value) { alert("---clicktreecheck---"+JSON.stringify(data) +"#"+value); }
+  onNodeSelect(event) { this.updateTable(); }
+  onNodeUnselect(event) { this.updateTable(); };
+  updateTable(){
+    //alert("---onNodeSelect---"+ Flatted.stringify(event)); //event == this.treetableselectdata)
+    console.log("--------------updateTable---"+ (Array.isArray(this.treetableselectdata)) +":"+ Flatted.stringify(this.treetableselectdata));
+    this.tableModel.header = [];
+    this.tableModel.data = [];
+    let headers = ["name","type","path","column"];
+    headers.forEach(o=>this.tableModel.header.push(new TableHeaderItem({ data:o})));
+
+    this.treetableselectdata.forEach((o,i)=>{
+      console.log("\t updateTable - "+ i +">"+ (Array.isArray(o)) +">"+ o +":"+ "#name="+o.data.name+ "#type="+o.data.type);//Flatted.stringify(k));
+      this.tableModel.data[i] = [];
+      headers.forEach((o2,i2)=>{
+        this.tableModel.data[i].push(new TableItem({ data: o.data[o2] }));
+      });
+    });
+    console.log("---updateTable---"+ this.treetabledata.length +":"+ Flatted.stringify(this.treetabledata[1]["children"][1]));
+  }
+    ////////////////////////////////////////////////////////// table 
+    tableModel = new TableModel();
+    initTable() {
+      this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
+      this.tableModel.data = [
+        [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })],
+        [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })],
+        [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })],
+      ];
+    }
+    
+    selectData;
+    clickTableRow(event)
+    {
+      //LogUtil.alert("event="+ this.stringifyEx(event.model));
+      this.selectData = [];
+      //LogUtil.alert("event.selectrowindex="+ event.selectedRowIndex);
+  
+      let row = event.selectedRowIndex;
+      let header = event.model['header'].map(o=>o['data']);
+      //LogUtil.alert("event.model['_data']="+ row +":"+ JSON.stringify(event.model['_data'][row]));
+      let datas = event.model['_data'][row].map(o=>{return o['data']});
+      //LogUtil.alert("datas="+ datas);
+      for(let i=0;i<datas.length;i++) this.selectData.push({key:header[i],value:datas[i]});
+      //LogUtil.alert("this.selectData="+ JSON.stringify(this.selectData));
+    }
+  
   ////////////////////////////////////////////////////////// sub
   appdatasub = "/toclient/appdata";
   appdatareply = "-";
@@ -65,6 +126,7 @@ export class TimeseriesAboutComponent implements OnInit {
     //this.mapclear();
     this.curKey = key;
     this.treetabledata = [];
+    this.treetableselectdata = [];
     let json = this.map.get(key);
     this.jsonObject = json;
 

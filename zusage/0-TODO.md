@@ -22,8 +22,6 @@ codepen/codesandbox
 - scss - $feayure-flags ....
 - scss  - i3tm - height 500 (테이블이 커지면서 겹쳐짐)
 
-# JSON.stringyfy
-- ~ angular.json  - scripts ... flatted/min.js
 
 - ...subscribe(res=>setdebug(res),err=>setdebug...
 - 모든 catch ... setdebug ~모든 click에 try,catch추가

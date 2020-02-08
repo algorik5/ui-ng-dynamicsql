@@ -18,5 +18,3 @@
 - header.component.html > [route]="['zhello']"
 
 # etc
-- npm i ngx-json-viewer
-- angular.json : scripts(node_modules/flatted/min.js) --- 
