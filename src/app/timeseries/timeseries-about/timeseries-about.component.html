@@ -1,12 +1,8 @@
-<p>timeseries-about works!</p>
 <div class="row" id="irqq">
     <div class="cell" id="it8t">
       <div class="row">
         <div class="cell" id="iy9o1">
           <div id="ix0se">
-            <!-- <ibm-search theme="light" placeholder="id" autocomplete="off" disabled="false"  (valueChange)="valueChange($event)" (clear)="clear()"> </ibm-search> -->
-            <!-- <ibm-search placeholder="Nation" theme="dark" size="sm" (valueChange)="searchChange($event)" (clear)="searchClear($event)"> </ibm-search>
-            <ibm-tag type="blue" *ngFor='let nation of nations' (click)='clickNation(nation)'>{{nation}}</ibm-tag> -->
             <input ibmText [(ngModel)]="wsurl"/>
             <button ibmButton="secondary" size="sm" (click)="clickConnect($event)">Connect</button>
             &nbsp; <button ibmButton="secondary" size="sm" (click)="clickDisconnect($event)">Disconnect</button>

@@ -14,7 +14,6 @@ codepen/codesandbox
 
 # sboot 
 - listen(consumer<string> con)... onmsg...consumer.accept(msg.get...
-- format : gap/total/elapse ...
 
 # stomp ts
 - 추가포팅 - substart/stop/started
@@ -26,12 +25,7 @@ codepen/codesandbox
 # JSON.stringyfy
 - ~ angular.json  - scripts ... flatted/min.js
 
-# ngx-json-viewer
-- html ~  <ngx-json-viewer ...  
-- ts
-  - debugobject;   
-  - setdebug(obj) { this.debugobject = obj}   
-  - ...subscribe(res=>setdebug(res),err=>setdebug...
+- ...subscribe(res=>setdebug(res),err=>setdebug...
 - 모든 catch ... setdebug ~모든 click에 try,catch추가
 
 # carbon form
