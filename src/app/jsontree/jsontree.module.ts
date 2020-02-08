@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotTableModule } from '@handsontable/angular';
 import { TreeTableModule } from 'primeng/treetable';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { TreeTableModule } from 'primeng/treetable';
     NgxJsonViewerModule,
     HotTableModule,
     TreeTableModule,
+    NgScrollbarModule,
     JsontreeRoutingModule
   ]
 })

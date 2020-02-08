@@ -166,8 +166,10 @@ export class TimeseriesAboutComponent implements OnInit {
   }
   mapinit() { 
     this.map = new Map();
-    this.mapadd("app1","v1"); 
-    this.mapadd("app2","v2");
+    // this.mapadd("app1","v1"); 
+    // this.mapadd("app2","v2");
+    this.mapadd("type1",{id:"id1",name:"name2"}); 
+    this.mapadd("type2",{id1:"id1",name1:"name2"});
   }
 
   ////////////////////////////////////////////////////////// map 

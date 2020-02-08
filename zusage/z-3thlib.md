@@ -1,3 +1,11 @@
+
+# scroll bar (ngx-scrollbar 또는 cdk virtual scroll)
+- npm i ngx-scrollbar @angular/cdk@8.2.3
+  - (주의) @angular/cdk 9버젼은 에러 >>> An accessor cannot be declared in an ambient context==>tyscript version 문제인듯
+- module.ts - NgScrollbarModule
+- html - <ng-scrollbar> ... </ng-scrollbar>
+
+
 # ngx-json-viewer
 - npm install ngx-json-viewer
 - module.ts : NgxJsonViewerModule 
