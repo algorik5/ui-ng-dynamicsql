@@ -1,12 +1,31 @@
 
 
+샘플 테이블/데이터 - swagger>makesampledata
+    server  host/time/cpu/mem
+    process process/args/host/cpu/time
+
+sql view(hansometable)/chart
+    좌 - sql/x/y/legend
+    우 - chart/table
+
+stomp view(hansometable)/chart
+
+
+
+
 
 
 create table
+insert table
+select > view
+
 ====== 무조건 alasql에 넣기 > 무조건 alasql에서 조회
-============ stomp > alasql > chart/table
-============ stomp > chart/table
-============ sql select > chart/table
+============ stomp      > alasql    > chart/table
+============ sql select > alasql    > chart/table
+
+
+
+
 
 
 

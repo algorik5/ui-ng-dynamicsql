@@ -108,35 +108,47 @@ export class TimeseriesAboutComponent implements OnInit {
     });
     console.log("---updateTable---"+ this.treetabledata.length +":"+ Flatted.stringify(this.treetabledata[1]["children"][1]));
   }
-    ////////////////////////////////////////////////////////// table 
-    clickTableCreate(event) {}
-    clickTableClear(event) {}
-    tableModel = new TableModel();
-    initTable() {
-      this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
-      this.tableModel.data = [
-        [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })],
-        [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })],
-        [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })],
-      ];
-    }
-    
-    selectData;
-    clickTableRow(event)
-    {
-      //LogUtil.alert("event="+ this.stringifyEx(event.model));
-      this.selectData = [];
-      //LogUtil.alert("event.selectrowindex="+ event.selectedRowIndex);
+  ////////////////////////////////////////////////////////// alasql
+  clickTableCreate(event) {
+    let alldatas = [];
+    let header = this.tableModel['header'].map(o=>o['data']);
+    this.tableModel.data.forEach((o,i)=>{
+      let datas = this.tableModel['_data'][i].map(o=>{return o['data']});
+      for(let i2=0;i2<datas.length;i2++) alldatas.push({[header[i2]]:datas[i2]});
+    });
+    console.log("\t #alldatas="+ JSON.stringify(alldatas));
+    alldatas = alldatas.filter(o=>{ if(o["column"]==null) return false; return true; });
+    console.log("\t #alldatas filter="+ JSON.stringify(alldatas));
+    let tablename = "xxx";
+    let sql = "create table "+ tablename +" (";
+    alldatas.forEach((o,i)=>{
+      sql = sql +" "+o["column"]+" string"
+      if(i != (alldatas.length-1)) sql = sql +",";
+    });
+    sql = sql + " ) ";
+    console.log("\t #alldatas sql="+ sql);
+  }
+  ////////////////////////////////////////////////////////// table 
+  tableModel = new TableModel();
+  initTable() {
+    this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
+    this.tableModel.data = [ [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })], [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })], [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })] ];
+  }
   
-      let row = event.selectedRowIndex;
-      let header = event.model['header'].map(o=>o['data']);
-      //LogUtil.alert("event.model['_data']="+ row +":"+ JSON.stringify(event.model['_data'][row]));
-      let datas = event.model['_data'][row].map(o=>{return o['data']});
-      //LogUtil.alert("datas="+ datas);
-      for(let i=0;i<datas.length;i++) this.selectData.push({key:header[i],value:datas[i]});
-      //LogUtil.alert("this.selectData="+ JSON.stringify(this.selectData));
-    }
-  
+  selectData;
+  clickTableRow(event)
+  {
+    this.selectData = [];
+    let row = event.selectedRowIndex;
+    let header = event.model['header'].map(o=>o['data']);
+    let datas = event.model['_data'][row].map(o=>{return o['data']});
+    for(let i=0;i<datas.length;i++) this.selectData.push({key:header[i],value:datas[i]});
+  }
+
+  clickTableClear(event) {
+    this.tableModel.header = [];
+    this.tableModel.data = [];
+  }
   ////////////////////////////////////////////////////////// sub
   appdatasub = "/toclient/appdata";
   appdatareply = "-";
