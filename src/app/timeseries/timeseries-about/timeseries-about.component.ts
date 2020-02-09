@@ -51,16 +51,16 @@ export class TimeseriesAboutComponent implements OnInit {
   inittreetabledata(){
     this.treetabledata = 
     [ 
-      { "data":{ "name":"Documents", "value":"75kb", "type":"Folder","path":"-" }
+      { "data":{ "name":"Documents", "value":"75kb", "type":"Folder","path":"//Documents" }
         ,"children":
         [
-          { "data":{ "name":"Work", "value":"55kb", "type":"Folder","path":"-" }
-          ,"children":[{ "data":{ "name":"Expenses.doc", "value":"30kb", "type":"Document","path":"-",} }, { "data":{ "name":"Resume.doc", "value":"25kb", "type":"Resume","path":"-" } }]}, 
-          { "data":{ "name":"Home", "value":"20kb", "type":"Folder","path":"-" }
-          ,"children":[ { "data":{ "name":"Invoices", "value":"20kb", "type":"Text","path":"-" } } ] } 
+          { "data":{ "name":"Work", "value":"55kb", "type":"Folder","path":"//Documents/Work" }
+          ,"children":[{ "data":{ "name":"Expenses.doc", "value":"30kb", "type":"Document","path":"//Documents/Work/Expenses.doc",} }, { "data":{ "name":"Resume.doc", "value":"25kb", "type":"Resume","path":"//Documents/Work/Resume.doc" } }]}, 
+          { "data":{ "name":"Home", "value":"20kb", "type":"Folder","path":"//Documents/Home" }
+          ,"children":[ { "data":{ "name":"Invoices", "value":"20kb", "type":"Text","path":"//Home/Work/Invoices" } } ] } 
         ] }, 
-      { "data":{ "name":"Pictures", "value":"150kb", "type":"Folder","path":"-" }
-      ,"children":[ { "data":{ "name":"barcelona.jpg", "value":"90kb", "type":"Picture","path":"-" } }, { "data":{ "name":"primeui.png", "value":"30kb", "type":"Picture","path":"-" } }, { "data":{ "name":"optimus.jpg", "value":"30kb", "type":"Picture","path":"-" } } ] } 
+      { "data":{ "name":"Pictures", "value":"150kb", "type":"Folder","path":"//Pictures" }
+      ,"children":[ { "data":{ "name":"barcelona", "value":"90kb", "type":"Picture","path":"//Pictures/barcelona" } }, { "data":{ "name":"primeui", "value":"30kb", "type":"Picture","path":"//Pictures/primeui" } }, { "data":{ "name":"primeui", "value":"30kb", "type":"Picture","path":"//Pictures/primeui" } } ] } 
     ];
     this.treetablecolumns = Object.keys(this.treetabledata[0]["data"]);//
   }
@@ -69,24 +69,48 @@ export class TimeseriesAboutComponent implements OnInit {
   //clicktreecheck(data,value) { alert("---clicktreecheck---"+JSON.stringify(data) +"#"+value); }
   onNodeSelect(event) { this.updateTable(); }
   onNodeUnselect(event) { this.updateTable(); };
+  onHeaderCheckboxToggle(event) {  }//전체 체크
   updateTable(){
     //alert("---onNodeSelect---"+ Flatted.stringify(event)); //event == this.treetableselectdata)
     console.log("--------------updateTable---"+ (Array.isArray(this.treetableselectdata)) +":"+ Flatted.stringify(this.treetableselectdata));
     this.tableModel.header = [];
     this.tableModel.data = [];
-    let headers = ["name","type","path","column"];
+    let headers = ["path","column","column type"];
     headers.forEach(o=>this.tableModel.header.push(new TableHeaderItem({ data:o})));
 
-    this.treetableselectdata.forEach((o,i)=>{
-      console.log("\t updateTable - "+ i +">"+ (Array.isArray(o)) +">"+ o +":"+ "#name="+o.data.name+ "#type="+o.data.type);//Flatted.stringify(k));
+    //let datas = this.treetableselectdata.filter(o=>o.data.type!="Folder"); 
+    //datas = datas.filter((o,i,all)=>all.indexOf(o)==i);//dup 제거
+
+    let datas = this.treetableselectdata;
+    let set = new Set(); 
+    datas = datas.filter((o)=>{
+      //if(o.data.type=="Folder") return false;
+      //if(o.data.type!="-v-") return false;
+      //if(o["children"]!=null) return false;
+      if(o["children"]!=null && o["children"].length >0) return false;
+      //if(o["children"].length >0) return false;
+      if(set.has(o.data.path)) return false;
+      set.add(o.data.path);
+      return true;
+    });//dup 제거
+
+    datas.forEach((o,i)=>{
+      console.log("\t ---updateTable - "+ i +">"+ (Array.isArray(o)) +">"+ o +":"+ "#name="+o.data.name+ "#type="+o.data.type+ "#path="+o.data.path);//Flatted.stringify(k));
       this.tableModel.data[i] = [];
       headers.forEach((o2,i2)=>{
-        this.tableModel.data[i].push(new TableItem({ data: o.data[o2] }));
+        if(o2 == "column type") this.tableModel.data[i].push(new TableItem({ data: "string" }));
+        else if(o2 == "column") {
+          let column = o.data["path"].replace("//","").replace("/","_");
+          this.tableModel.data[i].push(new TableItem({ data: column }));
+        }
+        else this.tableModel.data[i].push(new TableItem({ data: o.data[o2] }));
       });
     });
     console.log("---updateTable---"+ this.treetabledata.length +":"+ Flatted.stringify(this.treetabledata[1]["children"][1]));
   }
     ////////////////////////////////////////////////////////// table 
+    clickTableCreate(event) {}
+    clickTableClear(event) {}
     tableModel = new TableModel();
     initTable() {
       this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
@@ -125,8 +149,13 @@ export class TimeseriesAboutComponent implements OnInit {
   clickKey(key){
     //this.mapclear();
     this.curKey = key;
+    
     this.treetabledata = [];
     this.treetableselectdata = [];
+
+    this.tableModel.header = [];
+    this.tableModel.data = [];
+
     let json = this.map.get(key);
     this.jsonObject = json;
 
