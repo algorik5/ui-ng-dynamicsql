@@ -67,17 +67,16 @@
             &nbsp;<button ibmButton="secondary" size="sm" (click)="clickxxx($event)">xxx</button>
 
             <!-- 느림 <ngx-json-viewer [json]="treetableselectdata" [expanded]="true"></ngx-json-viewer> -->
-            <!-- <ibm-tab heading="table"> -->
-              <!-- <div> -->
-              <!-- <ng-scrollbar> -->
+            <ibm-tabs [followFocus]="followFocus" [isNavigation]="isNavigation">
+              <ibm-tab heading="table">
+              <ng-scrollbar>
                 <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
-              <!-- </ng-scrollbar> -->
-              <!-- </div> -->
-            <!-- </ibm-tab> -->
-            <!-- <ibm-tab heading="data">
+              </ng-scrollbar>
+            </ibm-tab>
+            <ibm-tab heading="data">
               ...
-            </ibm-tab> -->
-
+            </ibm-tab>
+          </ibm-tabs>
 
         </div>
       </div>
