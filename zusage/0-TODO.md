@@ -1,12 +1,20 @@
 
-codepen/codesandbox
 
 
-** design system : ms-ui fabric (react only) <<< https://brunch.co.kr/@ssin23/64
-*(ms) angular-react (ng에서 react compo사용)
- - https://github.com/microsoft/angular-react
- - https://stackblitz.com/edit/angular-react
 
+create table
+====== 무조건 alasql에 넣기 > 무조건 alasql에서 조회
+============ stomp > alasql > chart/table
+============ stomp > chart/table
+============ sql select > chart/table
+
+
+
+--이슈 - ibm-table이 scroll이 이상함 - 크기가 커짐 ...
+	아마도 dynamic으로 크기가 변하면 안되는 듯
+	primeng scroll
+--이슈 - Flatted.stringify(k2) <<< 항상 최상위를 출력하는군
+	--- 다른방안
 
 
 
@@ -25,6 +33,7 @@ codepen/codesandbox
 
 - ...subscribe(res=>setdebug(res),err=>setdebug...
 - 모든 catch ... setdebug ~모든 click에 try,catch추가
+- codepen/codesandbox 
 
 # carbon form
 - ng form그대로 사용
