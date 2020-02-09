@@ -42,7 +42,10 @@ export class ZhelloAboutComponent implements OnInit {
   hotDatas = [];//[{id:1,name:'name1'},{id:2,name:'name2'}];
   initHotDatas() { this.hotDatas = [{id:1,name:'name1'},{id:2,name:'name2'}];  }
   clickChangeData(evnet) { 
-    this.hotDatas = [{idz:1,namez:'name111',desc:'desc111'},{idz:2,namez:'name222',desc:'desc222'},{idz:3,namez:'name333',desc:'desc333'}]; 
+    //this.hotDatas = [{idz:1,namez:'name111',desc:'desc111'},{idz:2,namez:'name222',desc:'desc222'},{idz:3,namez:'name333',desc:'desc333'}]; 
+    let datas = [{id:1,name:'name111',desc:'desc111'},{id:2,name:'name222',desc:'desc222'},{id:3,name:'name333',desc:'desc333'}]; 
+    let columns = {}; Object.keys(datas[0]).forEach(k=>{ columns[k] = k; });
+    this.hotDatas = [columns].concat(datas);
   }
 
   //////////////////////////////// alasql

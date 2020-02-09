@@ -1,4 +1,15 @@
 
+npm install @carbon/charts @carbon/charts-angular d3
+- https://www.carbondesignsystem.com/data-visualization/getting-started/angular/
+- https://carbon-design-system.github.io/carbon-charts/angular/?path=/story/line--line-time-series
+
+
+
+
+
+
+
+
 
 샘플 테이블/데이터 - swagger>makesampledata
     server  host/time/cpu/mem

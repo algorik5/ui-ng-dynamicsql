@@ -1,0 +1,61 @@
+<div class="row" id="irqq">
+    <div class="cell" id="it8t">
+      <div class="row">
+        <div class="cell" id="iy9o1">
+          <div id="ix0se">
+            <input ibmText [(ngModel)]="sql"/>
+            <button ibmButton="secondary" size="sm" (click)="clickSQL($event)">SQL</button>
+            <ibm-tag type="blue">rs={{sqlrs.length}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iqq8k">
+          <div id="i9grr">x
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of sqlcolumns' (click)='clickX(key)'>{{key}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">y
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of sqlcolumns' (click)='clickY(key)'>{{key}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">l
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of sqlcolumns' (click)='clickLegend(key)'>{{key}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="cell" id="ie2y">
+      <div class="row">
+
+        <!-- <ng-scrollbar> -->
+          <ibm-stacked-bar-chart class="n-chart" [data]="stackedBarData" [options]="stackedBarOptions" #stackedBarChart ></ibm-stacked-bar-chart>
+        <!-- </ng-scrollbar> -->
+
+      </div>
+
+      <div class="row" id="i3tm">
+        <div class="cell" id="ib7j">
+            
+          <hot-table [hotId]="hotId" [settings]="hotSettings" [data]="hotDatas" licenseKey="non-commercial-and-evaluation"></hot-table>
+  
+        </div>
+      </div>
+
+      <div class="row" id="impx1">
+        <div class="cell" id="ipj41">
+          <ng-scrollbar>
+            <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+          </ng-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -12,6 +12,8 @@ const routes: Routes = [
 	,{path: 'jsontree',loadChildren: () => import('./jsontree/jsontree.module').then(m => m.JsontreeModule)}
 	,{path: 'timeseries',loadChildren: () => import('./timeseries/timeseries.module').then(m => m.TimeseriesModule)}
 
+	,{path: 'sqlchart',loadChildren: () => import('./sqlchart/sqlchart.module').then(m => m.SqlchartModule)}
+	,{path: 'stompchart',loadChildren: () => import('./stompchart/stompchart.module').then(m => m.StompchartModule)}
 ];
 
 @NgModule({
