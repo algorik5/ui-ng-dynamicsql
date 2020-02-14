@@ -5,6 +5,8 @@ import { LogService } from 'src/app/aservices/log.service';
 import { DateUtil } from 'src/app/util/DateUtil';
 import { TreeNode } from 'primeng/api';
 import { TableModel, TableHeaderItem, TableItem } from 'carbon-components-angular';
+import Handsontable from 'handsontable';
+import { TableService } from 'src/app/aservices/table.service';
 
 declare var Flatted;
 
@@ -15,7 +17,7 @@ declare var Flatted;
 })
 export class AboutComponent implements OnInit {
 
-  constructor(private log:LogService,private stomp:StompService) { 
+  constructor(private log:LogService,private stomp:StompService,private table:TableService) { 
   }
 
   ngOnInit() {
@@ -30,6 +32,28 @@ export class AboutComponent implements OnInit {
   isConnected()  {  return this.stomp.isConnected();  }
 
   tagColor(name) { if(name.includes("ERR")) return "red"; if(name.includes("ver")) return "red"; if(name.includes("xxx")) return "green"; return "blue"; }
+
+  /////////////////////////// editor
+  editordata = "";
+  editordatavalid = "";
+  editorrows = 10;
+  setEditordata(json) { this.editordata = JSON.stringify(json,null,2); }
+  editorToTree()
+  {
+    let json = JSON.parse(this.editordata);
+    this.jsonToTree(json);
+    this.editordatavalid = "valid";
+  }
+
+  //////////////////////////////// hansometable
+  getTableId() { return this.table.getId(); }
+  getTableConfig() { return this.table.getConfig(); }
+  getTableData() { return this.table.getData(); }
+  refreshTable() { this.table.refreshTable(); }
+
+
+
+
   /////////////////////////// treetable/primeng
   treetablecolumns = [];
   treetabledata = [];
@@ -58,15 +82,21 @@ export class AboutComponent implements OnInit {
   updateTable(){
     //alert("---onNodeSelect---"+ Flatted.stringify(event)); //event == this.treetableselectdata)
     console.log("--------------updateTable---"+ (Array.isArray(this.treetableselectdata)) +":"+ Flatted.stringify(this.treetableselectdata));
+    
     this.tableModel.header = [];
     this.tableModel.data = [];
-    let headers = ["path","column","column type"];
+    let headers = ["path","column","columntype"];
     headers.forEach(o=>this.tableModel.header.push(new TableHeaderItem({ data:o})));
 
     //let datas = this.treetableselectdata.filter(o=>o.data.type!="Folder"); 
     //datas = datas.filter((o,i,all)=>all.indexOf(o)==i);//dup 제거
 
     let datas = this.treetableselectdata;
+    // datas.forEach(data=>{
+    //   LogUtil.debug("\t --- data="+JSON.stringify(data));
+    // });
+    // if(1==1) return;
+
     let set = new Set(); 
     datas = datas.filter((o)=>{
       //if(o.data.type=="Folder") return false;
@@ -79,11 +109,16 @@ export class AboutComponent implements OnInit {
       return true;
     });//dup 제거
 
+    this.table.clearData();
+
     datas.forEach((o,i)=>{
       console.log("\t ---updateTable - "+ i +">"+ (Array.isArray(o)) +">"+ o +":"+ "#name="+o.data.name+ "#type="+o.data.type+ "#path="+o.data.path);//Flatted.stringify(k));
+      let mydata = {path:o.data.path,column:o.data["path"].replace("//","").replace("/","_"),columntype:'string'};
+      this.table.addData(mydata);
+
       this.tableModel.data[i] = [];
       headers.forEach((o2,i2)=>{
-        if(o2 == "column type") this.tableModel.data[i].push(new TableItem({ data: "string" }));
+        if(o2 == "columntype") this.tableModel.data[i].push(new TableItem({ data: "string" }));
         else if(o2 == "column") {
           let column = o.data["path"].replace("//","").replace("/","_");
           this.tableModel.data[i].push(new TableItem({ data: column }));
@@ -91,6 +126,9 @@ export class AboutComponent implements OnInit {
         else this.tableModel.data[i].push(new TableItem({ data: o.data[o2] }));
       });
     });
+
+    //this.table.refreshTable();//안됨
+    this.table.addColumn();
     console.log("---updateTable---"+ this.treetabledata.length +":"+ Flatted.stringify(this.treetabledata[1]["children"][1]));
   }
   ////////////////////////////////////////////////////////// alasql
@@ -113,7 +151,11 @@ export class AboutComponent implements OnInit {
     sql = sql + " ) ";
     console.log("\t #alldatas sql="+ sql);
   }
+  
   ////////////////////////////////////////////////////////// table 
+
+
+  
   tableModel = new TableModel();
   initTable() {
     this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
@@ -146,9 +188,6 @@ export class AboutComponent implements OnInit {
   clickKey(key){
     //this.mapclear();
     this.curKey = key;
-    
-    this.treetabledata = [];
-    this.treetableselectdata = [];
 
     this.tableModel.header = [];
     this.tableModel.data = [];
@@ -156,6 +195,15 @@ export class AboutComponent implements OnInit {
     let json = this.map.get(key);
     this.jsonObject = json;
 
+    this.setEditordata(json);
+    this.jsonToTree(json);
+  }
+  jsonToTree(json)
+  {
+    this.treetabledata = [];
+    this.treetableselectdata = [];
+
+    LogUtil.debug("==== jsonToTree json="+JSON.stringify(json));
     this.treetablecolumns = ["name","value","type","path"];
       //{_type_=GAP_DATA, GAP={SRT=0, END=0, ERR=0}, TOTAL={SRT=0, END=0, ERR=0}, app=app-0, ver=v-0, count=69, time=2020-02-07 17:38:40}
       //{_type_=PROCESS_DATA, datas=[{process=0, host=0, time=2020-02-07 17:39:30, cpu=0, memory=0}, {process=1, host=1, time=2020-02-07 17:39:30, cpu=1, memory=1}, {process=2, host=2, time=2020-02-07 17:39:30, cpu=2, memory=2}]}
@@ -254,8 +302,8 @@ export class AboutComponent implements OnInit {
   }
   mapinit() { 
     this.map = new Map();
-    this.mapadd("testobject",{name:"name1",type:"t1",value:"namev1"}); 
-    this.mapadd("testarray",{root:[{name:"name1",type:"t1",value:"namev12"},{name:"name2",type:"t2",value:"namev2"}]}); 
+    this.mapadd("testobject",{id:"1",name:"11",address:"111"}); 
+    this.mapadd("testarray",{root:[{id:"1",name:"11",address:"111"},{id:"2",name:"22",address:"222"}]}); 
   }
 
   ////////////////////////////////////////////////////////// map 

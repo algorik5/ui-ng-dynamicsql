@@ -4,6 +4,13 @@
   body {
     margin: 0;
   }
+  #height300{
+    height:400px;
+  }
+  #width300{
+    min-width:400px;
+    max-width:400px;
+  }
   .row{
     display:flex;
     justify-content:flex-start;

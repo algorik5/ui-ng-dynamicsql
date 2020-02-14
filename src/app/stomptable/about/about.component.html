@@ -1,7 +1,7 @@
 <div class="row" id="irqq">
     <div class="cell" id="it8t">
       <div class="row">
-        <div class="cell" id="iy9o1">
+        <div class="cell" id="width300">
           <div id="ix0se">
             <input ibmText [(ngModel)]="wsurl"/>
             <button ibmButton="secondary" size="sm" (click)="clickConnect($event)">Connect</button>
@@ -35,12 +35,17 @@
 
     </div>
     <div class="cell" id="ie2y">
-      <div class="row">
-      </div>
-      <div class="row" id="i3tm">
+        <div class="row" id="i3tm">
+          <div class="cell" id="ib7j">
+            <button ibmButton="secondary" size="sm" (click)="editorToTree($event)">apply tree</button>
+            <ibm-tag >valid={{editordatavalid}}</ibm-tag>
+            <textarea ibmTextArea [rows]="editorrows" [(ngModel)]="editordata"></textarea>
+          </div>
+        </div>
+        <div class="row" id="i3tm">
         <div class="cell" id="ib7j">
 
-            
+          <ng-scrollbar>
             <p-treeTable [value]="treetabledata" selectionMode="checkbox" [(selection)]="treetableselectdata" (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)" (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)">
               <ng-template pTemplate="caption">
                 <div style="text-align:left"> 
@@ -64,25 +69,29 @@
                   </tr>
               </ng-template>
             </p-treeTable>        
-    
+          </ng-scrollbar>  
         </div>
       </div>
       <div class="row" id="impx">
         <div class="cell" id="ipj4">
             <button ibmButton="secondary" size="sm" (click)="clickTableCreate($event)">Create Table</button>
             &nbsp;<button ibmButton="secondary" size="sm" (click)="clickTableClear($event)">Clear</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="refreshTable()">refresh</button>            
 
-            <!-- 느림 <ngx-json-viewer [json]="treetableselectdata" [expanded]="true"></ngx-json-viewer> -->
-            <ibm-tabs [followFocus]="followFocus" [isNavigation]="isNavigation">
-              <ibm-tab heading="table">
-              <ng-scrollbar>
-                <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
+              <ng-scrollbar> 
+                <!-- <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table> -->
+                <!-- <hot-table [hotId]="hotId" [settings]="hotSettings" [data]="hotDatas" licenseKey="non-commercial-and-evaluation"></hot-table> -->
+                <hot-table [hotId]="getTableId()" [settings]="getTableConfig()" [data]="getTableData()" licenseKey="non-commercial-and-evaluation"></hot-table>
               </ng-scrollbar>
-            </ibm-tab>
-            <ibm-tab heading="data">
-              ...
-            </ibm-tab>
-          </ibm-tabs>
+
+        </div>
+      </div>
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="refreshTable()">refresh</button>            
+              <ng-scrollbar> 
+                <hot-table [hotId]="getTableId()" [settings]="getTableConfig()" [data]="getTableData()" licenseKey="non-commercial-and-evaluation"></hot-table>
+              </ng-scrollbar>
 
         </div>
       </div>
