@@ -70,8 +70,8 @@
   - let rs1 = this.db.exec("select * from test1 order by id");
   - let columns = {}; Object.keys(rs1[0]).forEach(k=>{ columns[k] = k; });
   - this.hotDatas1 = [columns].concat(rs1);
-- 향후
-  - pstmt : 테스트 실패
+- 주의
+  - pstmt를 사용하려면 alasql.compile 사용해야함 >>> new alasql.Database()로는 compile사용불가
 
 # treetable - primeng
 - (참고-checkbox,selection 등) https://primefaces.org/primeng/#/treetable/selection

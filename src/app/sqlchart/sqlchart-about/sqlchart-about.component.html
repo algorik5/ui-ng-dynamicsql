@@ -1,7 +1,7 @@
 <div class="row" id="irqq">
     <div class="cell" id="it8t">
       <div class="row">
-        <div class="cell" id="iy9o1">
+        <div class="cell" id="width300">
           <div id="ix0se">
             <input ibmText [(ngModel)]="sql"/>
             <button ibmButton="secondary" size="sm" (click)="clickSQL($event)">SQL</button>
@@ -10,23 +10,23 @@
         </div>
       </div>
       <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">legend
+            <ibm-tag [type]="column['color']" *ngFor='let column of sqlcolumnslegend' (click)='clickLegend(column)'>{{column['name']}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="cell" id="iqq8k">
           <div id="i9grr">x
-            <ibm-tag [type]="tagColor(key)" *ngFor='let key of sqlcolumns' (click)='clickX(key)'>{{key}}</ibm-tag>
+            <ibm-tag [type]="column['color']" *ngFor='let column of sqlcolumnsx' (click)='clickX(column)'>{{column['name']}}</ibm-tag>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="cell" id="iu3x9">
           <div id="id3yi">y
-            <ibm-tag [type]="tagColor(key)" *ngFor='let key of sqlcolumns' (click)='clickY(key)'>{{key}}</ibm-tag>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="cell" id="iu3x9">
-          <div id="id3yi">l
-            <ibm-tag [type]="tagColor(key)" *ngFor='let key of sqlcolumns' (click)='clickLegend(key)'>{{key}}</ibm-tag>
+            <ibm-tag [type]="column['color']" *ngFor='let column of sqlcolumnsy' (click)='clickY(column)'>{{column['name']}}</ibm-tag>
           </div>
         </div>
       </div>
@@ -35,11 +35,17 @@
     </div>
     <div class="cell" id="ie2y">
       <div class="row">
+        <div class="cell" id="height300">
 
         <!-- <ng-scrollbar> -->
-          <ibm-stacked-bar-chart class="n-chart" [data]="stackedBarData" [options]="stackedBarOptions" #stackedBarChart ></ibm-stacked-bar-chart>
-        <!-- </ng-scrollbar> -->
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <button ibmButton="secondary" size="sm" (click)='chartclear()'>clear</button>
+            &nbsp; <button ibmButton="secondary" size="sm" (click)='chartadddatatest()'>testdata</button>
+          </div>
+          <div echarts [options]="chartoptions" (chartInit)="chartinit($event)"></div>
+          <!-- </ng-scrollbar> -->
 
+        </div>
       </div>
 
       <div class="row" id="i3tm">

@@ -16,6 +16,13 @@
     flex-grow:1;
     flex-basis:100%;
   }
+  #height300{
+    height:400px;
+  }
+  #width300{
+    min-width:400px;
+    max-width:400px;
+  }
   #it8t{
     flex-basis:30%;
     border-radius:1px 0 0 0;

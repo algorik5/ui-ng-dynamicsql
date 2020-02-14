@@ -10,7 +10,7 @@ import { TreeTableModule } from 'primeng/treetable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { ChartsModule } from '@carbon/charts-angular';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [SqlchartAboutComponent],
@@ -32,7 +32,7 @@ import { ChartsModule } from '@carbon/charts-angular';
     HotTableModule,
     TreeTableModule,
     NgScrollbarModule,
-    ChartsModule,
+    NgxEchartsModule,
     SqlchartRoutingModule
   ]
 })

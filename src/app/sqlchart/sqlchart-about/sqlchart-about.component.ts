@@ -7,6 +7,11 @@ import { TreeNode } from 'primeng/api';
 import { TableModel, TableHeaderItem, TableItem } from 'carbon-components-angular';
 import Handsontable from 'handsontable';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { EChartOption, ECharts } from 'echarts';
+import { NumberUtil } from 'src/app/util/NumberUtil';
+import { StringUtil } from 'src/app/util/StringUtil';
+import { MathUtil } from 'src/app/util/MathUtil';
+import { EchartsService } from 'src/app/aservices/echarts.service';
 
 declare var Flatted;
 
@@ -17,7 +22,8 @@ declare var Flatted;
 })
 export class SqlchartAboutComponent implements OnInit {
 
-  constructor(private http:HttpClient,private log:LogService,private stomp:StompService) { 
+  constructor(private http:HttpClient,private log:LogService,private stomp:StompService
+    ,private chart:EchartsService) { 
   }
 
   ngOnInit() {
@@ -35,41 +41,24 @@ export class SqlchartAboutComponent implements OnInit {
   ////////////////////////////////////////////////////////// json view 
   jsonObject;
 
-  ////////////////////////////////////////////////////////// chart
-  //stackedBarData = {};
-  //stackedBarOptions = {};
-  stackedBarData = {
-    labels: ['Quantity', 'Leads', 'Sold', 'Restocking', 'Misc'],
-    datasets: [
-      { label: 'Dataset 1', data: [65000, 29123, 35213, 51213, 16932], },
-      { label: 'Dataset 2', data: [32432, 21312, 56456, 21312, 34234], },
-      { label: 'Dataset 3', data: [12312, 23232, 34232, 12312, 34234], },
-    ],
-  };
-  stackedBarOptions = {
-    title: 'Stacked bar (discrete)',
-    axes: {
-      left: { primary: true, stacked: true, },
-      bottom: { scaleType: 'labels', secondary: true, },
-    },
-    height: '400px',
-  };
-  ////////////////////////////////////////////////////////// click
-  clickX(x) {}
-  clickY(y) {}
-  clickLegend(legend) {}
-
   ////////////////////////////////////////////////////////// sql
   sql = "select * from SERVER order by host,time";
   sqlrownum = "10";
   sqlrs = [];
   sqlcolumns = [];
+  sqlcolumnsx = [];//[{key:x,color:blud0}...]
+  sqlcolumnsy = [];//[{key:x,color:blud0}...]
+  sqlcolumnslegend = [];//[{key:x,color:blud0}...]
+
   clickSQL()
   {
     let url = "http://localhost:18080/dynamicsql/dynamicSelect";
     let params = new HttpParams().set("sql",this.sql).set("rownum",this.sqlrownum);
     this.http.get<any>(url,{params:params}).subscribe(
       res=>{ 
+        this.curx = ""; this.cury = ""; this.curlegend = "";
+        this.chart.clearChart();
+    
         this.jsonObject = res;
         this.sqlrs = res;//.length;
 
@@ -77,12 +66,45 @@ export class SqlchartAboutComponent implements OnInit {
         if(this.sqlrs.length < 1) return [];
 
         this.sqlcolumns = Object.keys(this.sqlrs[0]);
+        this.sqlcolumnsx = Object.keys(this.sqlrs[0]).map(o=>{ return {name:o,color:"blue"}; });
+        this.sqlcolumnsy = Object.keys(this.sqlrs[0]).map(o=>{ return {name:o,color:"blue"}; });
+        this.sqlcolumnslegend = Object.keys(this.sqlrs[0]).map(o=>{ return {name:o,color:"blue"}; });
 
         let columns = {}; Object.keys(this.sqlrs[0]).forEach(k=>{ columns[k] = k; });
         this.hotDatas = [columns].concat(this.sqlrs);
       }
       ,err=>{ LogUtil.alert('------'+ JSON.stringify(err)) }
     );
+  }
+
+  ////////////////////////////////////////////////////////// chart  
+  chartoptions:EChartOption = {};//주의 - null이면 chartinit 호출안됨
+  chartinit(event) { 
+    console.log("===chartinit start #event="+event);
+    this.chart.setChartInstance(event); 
+    this.chartoptions = this.chart.getChartOption();
+  }
+  chartclear() { this.chart.clearChart(); }
+  chartadddatatest() { this.chart.test_adddata(); }
+
+  ////////////////////////////////////////////////////////// click
+  curx;cury;curlegend;
+  clickX(x) { this.curx = x["name"]; this.changeColor(this.sqlcolumnsx,x); this.sqlrsToChart(); }
+  clickY(y) { this.cury = y["name"]; this.changeColor(this.sqlcolumnsy,y); this.sqlrsToChart(); }
+  clickLegend(legend) { this.curlegend = legend["name"]; this.changeColor(this.sqlcolumnsy,legend); this.sqlrsToChart(); }
+  changeColor(datas,data)//x y legend 
+  { 
+    datas.forEach(o=>{o["color"]="blue"});
+    data["color"] = "green";
+  }
+  
+  sqlrsToChart()
+  {
+    if(this.curx == null || this.cury == null || this.curlegend == null) return;
+    this.chart.clearChart();
+    this.sqlrs.forEach(data=>{
+      this.chart.addDataRow(data[this.curlegend],data[this.curx],data[this.cury]);
+    });
   }
 
 
