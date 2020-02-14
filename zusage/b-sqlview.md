@@ -1,19 +1,3 @@
-# 테스트 페이지 추가
-- ng g m sqlview --routing
-- ng g c sqlview/sqlview-about
-- sqlview-routing.module.ts > { path: '',component: SqlviewAboutComponent }
-- app-routing.module.ts > {path: 'sqlview',loadChildren: () => import('./sqlview/sqlview.module').then(m => m.SqlviewModule)}
-- header.component.html > [route]="['sqlview']"
-
-# 레이아웃 디자인 (grapesjs) - https://grapesjs.com/demo.html 
-- (주의) decorations/border with를 1로 설정
-- (주의) text를 넣어서 위치에 이름 표시(input table ...)
-- css 복사 > sqlview-about.component.scss
-- html 복사 > sqlview-about.component.html
-
-# carbon 넣기
-- sqlview-module.ts : imports 추가 (InputModule, ButtonModule, TagModule, TableModule,SearchModule)
-
 
 
 # test data

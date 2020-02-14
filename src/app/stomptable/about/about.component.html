@@ -1,0 +1,98 @@
+<div class="row" id="irqq">
+    <div class="cell" id="it8t">
+      <div class="row">
+        <div class="cell" id="iy9o1">
+          <div id="ix0se">
+            <input ibmText [(ngModel)]="wsurl"/>
+            <button ibmButton="secondary" size="sm" (click)="clickConnect($event)">Connect</button>
+            &nbsp; <button ibmButton="secondary" size="sm" (click)="clickDisconnect($event)">Disconnect</button>
+            <ibm-tag type="blue">connect={{isConnected()}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iqq8k">
+          <div id="i9grr">
+            <input ibmText [(ngModel)]="appdatasub"/>
+            <button ibmButton="secondary" size="sm" (click)="clickAppdataSub($event)">Sub</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataStop($event)">Stop</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataClear($event)">Clear</button>
+            <ibm-tag type="blue">time={{appdatatime}}</ibm-tag>
+            <ibm-tag type="blue">data={{appdatareply}}</ibm-tag>
+        
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of mapkeys()' (click)='clickKey(key)'>{{key}}</ibm-tag>
+              
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="cell" id="ie2y">
+      <div class="row">
+      </div>
+      <div class="row" id="i3tm">
+        <div class="cell" id="ib7j">
+
+            
+            <p-treeTable [value]="treetabledata" selectionMode="checkbox" [(selection)]="treetableselectdata" (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)" (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)">
+              <ng-template pTemplate="caption">
+                <div style="text-align:left"> 
+                  <p-treeTableHeaderCheckbox></p-treeTableHeaderCheckbox> 
+                  <span style="margin-left: .25em; vertical-align: middle">Toggle All</span> 
+                </div>
+             </ng-template>
+              <ng-template pTemplate="header" let-columns> 
+                  <tr> 
+                      <th *ngFor="let col of treetablecolumns"> {{col}} </th> 
+                  </tr> 
+              </ng-template>
+              <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                  <tr>
+                      <td *ngFor="let col of treetablecolumns; let i = index">
+                          <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                          <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0"></p-treeTableCheckbox>
+                          <!-- <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0" (click)="clicktreecheck(rowData)"></p-treeTableCheckbox> -->
+                          {{rowData[col]}}
+                      </td>
+                  </tr>
+              </ng-template>
+            </p-treeTable>        
+    
+        </div>
+      </div>
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+            <button ibmButton="secondary" size="sm" (click)="clickTableCreate($event)">Create Table</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickTableClear($event)">Clear</button>
+
+            <!-- 느림 <ngx-json-viewer [json]="treetableselectdata" [expanded]="true"></ngx-json-viewer> -->
+            <ibm-tabs [followFocus]="followFocus" [isNavigation]="isNavigation">
+              <ibm-tab heading="table">
+              <ng-scrollbar>
+                <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
+              </ng-scrollbar>
+            </ibm-tab>
+            <ibm-tab heading="data">
+              ...
+            </ibm-tab>
+          </ibm-tabs>
+
+        </div>
+      </div>
+
+      <div class="row" id="impx1">
+        <div class="cell" id="ipj41">
+          <ng-scrollbar>
+            <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+          </ng-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>

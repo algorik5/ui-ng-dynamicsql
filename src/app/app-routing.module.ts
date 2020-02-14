@@ -13,6 +13,8 @@ const routes: Routes = [
 	,{path: 'timeseries',loadChildren: () => import('./timeseries/timeseries.module').then(m => m.TimeseriesModule)}
 
 	,{path: 'sqlchart',loadChildren: () => import('./sqlchart/sqlchart.module').then(m => m.SqlchartModule)}
+
+	,{path: 'stomptable',loadChildren: () => import('./stomptable/stomptable.module').then(m => m.StomptableModule)}
 	,{path: 'stompchart',loadChildren: () => import('./stompchart/stompchart.module').then(m => m.StompchartModule)}
 ];
 
