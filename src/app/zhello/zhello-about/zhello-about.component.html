@@ -59,7 +59,20 @@
         <ngx-json-viewer [json]="treetabledata" [expanded]="true"></ngx-json-viewer>
       </ibm-tab>
   
-
+    <ibm-tab heading="ng flex-layout">
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <input ibmText/>
+            <button ibmButton="secondary" size="sm" >button1</button>
+            &nbsp; <button ibmButton="secondary" size="sm">button2</button>
+            <ibm-tag type="blue">tag1</ibm-tag>
+        </div>
+    </ibm-tab>
+  
+    <ibm-tab heading="ngx-echarts">
+        <button ibmButton="secondary" size="sm" (click)='chartclear()'>clear</button>
+        &nbsp; <button ibmButton="secondary" size="sm" (click)='chartadddatatest()'>testdata</button>
+        <div echarts [options]="chartoptions" (chartInit)="chartinit($event)"></div>
+    </ibm-tab>
 
 
 </ibm-tabs>

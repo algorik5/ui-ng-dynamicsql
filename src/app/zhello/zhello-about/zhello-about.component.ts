@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { LogUtil } from 'src/app/util/LogUtil';
 import Handsontable from 'handsontable';
+import { EChartOption, ECharts } from 'echarts';
+import { DateUtil } from 'src/app/util/DateUtil';
+import { MathUtil } from 'src/app/util/MathUtil';
+import { NumberUtil } from 'src/app/util/NumberUtil';
+import { StringUtil } from 'src/app/util/StringUtil';
 
 declare var defiant;
 declare var alasql;
@@ -17,6 +22,7 @@ export class ZhelloAboutComponent implements OnInit {
   ngOnInit() {
     this.initHotDatas();
     this.inittreetabledata();
+    //this.initcharts();
   }
 
 
@@ -117,6 +123,61 @@ export class ZhelloAboutComponent implements OnInit {
     ];
     this.treetablecolumns = Object.keys(this.treetabledata[0]["data"]);
   }
+
+
+  /////////////////////////// ngx-charts
+  chartoptions:EChartOption = {
+    title: { text: 'test chart' },
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'time' },
+    yAxis: { type: 'value',},// boundaryGap: [0, '100%'], },
+    legend: { data:[] },
+    series: [],//[{ name: 'Mocking Data', type: 'line', data: this.data }]
+  };
+
+  chartsInstance: ECharts;
+  chartinit(event) { this.chartsInstance = event; }
+  chartclear()
+  {
+    this.chartoptions.legend.data = [];
+    this.chartoptions.series = [];
+    this.chartsInstance.clear();
+  }
+  no=0;
+  chartadddatatest()
+  {
+    this.no++;
+    let date = new Date();
+    let newdate = DateUtil.addDays(date,this.no);
+
+    ["host-1","host-2"].forEach(host=>{
+      let temp = NumberUtil.stringToNumber(StringUtil.substringAfter(host,"-"));
+      let value = temp * MathUtil.random(0,10);
+      this.chartadddata({legend:host,x:newdate,y:value*2});
+    })
+  }
+  maxrow = 10;
+  chartadddata(data)//{legend:host,x:date,y:value}
+  {
+    console.log("===chartaddata start #data="+JSON.stringify(data));
+    let series = this.chartoptions.series.find(o=>o["name"]==data["legend"]);
+    if(series == null)
+    {
+      this.chartoptions.legend.data.push(data["legend"]);
+      let nextindex = this.chartoptions.series.push({type:"line",name:data["legend"],data:[]});
+      series = this.chartoptions.series[nextindex-1];
+    }
+    if(series["data"].length > this.maxrow) series["data"].shift();
+    series["data"].push([data["x"],data["y"]]);
+    this.chartsInstance.setOption(this.chartoptions);
+  }
+
+
+
+
+
+
+
 
   /////////////////////////// testdata
   testdata = {

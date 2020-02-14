@@ -1,4 +1,20 @@
 
+# ngx-echarts
+- npm install echarts ngx-echarts @types/echarts
+- module.ts - NgxEchartsModule
+- html
+- ts
+
+
+# angular flex-layout
+- npm i @angular/flex-layout@8.0.0-beta.27
+  - @angular/cdk 미설치시 설치
+  - 8버젼으로 설치 - 9버젼의 경우 ambient context 에러 발생
+- module.ts - FlexLayoutModule 
+- ts
+  - <div fxLayout="row" fxLayoutAlign="space-between"> input... button ...</div>
+- (주의) carbon input,button을 1row에 표현하려면 ng flex사용해야 함(또는 carbon grid/row/col 등으로 표현)
+
 # scroll bar (ngx-scrollbar 또는 cdk virtual scroll)
 - npm i ngx-scrollbar @angular/cdk@8.2.3
   - (주의) @angular/cdk 9버젼은 에러 >>> An accessor cannot be declared in an ambient context==>tyscript version 문제인듯
