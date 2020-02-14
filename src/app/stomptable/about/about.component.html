@@ -74,9 +74,20 @@
       </div>
       <div class="row" id="impx">
         <div class="cell" id="ipj4">
-            <button ibmButton="secondary" size="sm" (click)="clickTableCreate($event)">Create Table</button>
+            <!-- <button ibmButton="secondary" size="sm" (click)="clickTableCreate($event)">Create Table</button>
             &nbsp;<button ibmButton="secondary" size="sm" (click)="clickTableClear($event)">Clear</button>
-            &nbsp;<button ibmButton="secondary" size="sm" (click)="refreshTable()">refresh</button>            
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="refreshTable()">refresh</button>             -->
+            <div fxLayout="row" fxLayoutAlign="start">
+                <input ibmText [(ngModel)]="sql_tablename"/>
+                <button ibmButton="secondary" size="sm" (click)="sql_createtable()">createtable</button>
+                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_insert()">insert</button>
+                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_select()">select</button>
+                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_dbinfo()">dbinfo</button>
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="sql_refreshTable()">refresh sql</button>            
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="refreshTable()">refresh</button>            
+                <ibm-tag type="blue">rs={{sql_rs}}</ibm-tag>
+            </div>
+    
 
               <ng-scrollbar> 
                 <!-- <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table> -->
@@ -88,9 +99,8 @@
       </div>
       <div class="row" id="impx">
         <div class="cell" id="ipj4">
-            &nbsp;<button ibmButton="secondary" size="sm" (click)="refreshTable()">refresh</button>            
               <ng-scrollbar> 
-                <hot-table [hotId]="getTableId()" [settings]="getTableConfig()" [data]="getTableData()" licenseKey="non-commercial-and-evaluation"></hot-table>
+                <hot-table [hotId]="sql_getTableId()" [settings]="sql_getTableConfig()" [data]="sql_getTableData()" licenseKey="non-commercial-and-evaluation"></hot-table>
               </ng-scrollbar>
 
         </div>

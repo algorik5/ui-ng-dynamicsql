@@ -7,6 +7,9 @@ import { TreeNode } from 'primeng/api';
 import { TableModel, TableHeaderItem, TableItem } from 'carbon-components-angular';
 import Handsontable from 'handsontable';
 import { TableService } from 'src/app/aservices/table.service';
+import { StringUtil } from 'src/app/util/StringUtil';
+import { DblocalService } from 'src/app/aservices/dblocal.service';
+import { JsonPathUtil } from 'src/app/util/JsonPathUtil';
 
 declare var Flatted;
 
@@ -17,7 +20,8 @@ declare var Flatted;
 })
 export class AboutComponent implements OnInit {
 
-  constructor(private log:LogService,private stomp:StompService,private table:TableService) { 
+  constructor(private log:LogService,private stomp:StompService
+    ,private table:TableService,private dblocal:DblocalService) { 
   }
 
   ngOnInit() {
@@ -51,8 +55,14 @@ export class AboutComponent implements OnInit {
   getTableData() { return this.table.getData(); }
   refreshTable() { this.table.refreshTable(); }
 
-
-
+  //////////////////////////////// hansometable
+  sql_table = new TableService();
+  sql_getTableId() { return this.sql_table.getId(); }
+  sql_getTableConfig() { return this.sql_table.getConfig(); }
+  sql_getTableData() { return this.sql_table.getData(); }
+  sql_refreshTable() { this.sql_table.refreshTable(); }
+  sql_tablename = "-";
+  sql_rs;
 
   /////////////////////////// treetable/primeng
   treetablecolumns = [];
@@ -80,32 +90,24 @@ export class AboutComponent implements OnInit {
   onNodeUnselect(event) { this.updateTable(); };
   onHeaderCheckboxToggle(event) { this.updateTable(); }//전체 체크
   updateTable(){
-    //alert("---onNodeSelect---"+ Flatted.stringify(event)); //event == this.treetableselectdata)
     console.log("--------------updateTable---"+ (Array.isArray(this.treetableselectdata)) +":"+ Flatted.stringify(this.treetableselectdata));
     
-    this.tableModel.header = [];
-    this.tableModel.data = [];
-    let headers = ["path","column","columntype"];
-    headers.forEach(o=>this.tableModel.header.push(new TableHeaderItem({ data:o})));
-
-    //let datas = this.treetableselectdata.filter(o=>o.data.type!="Folder"); 
-    //datas = datas.filter((o,i,all)=>all.indexOf(o)==i);//dup 제거
-
     let datas = this.treetableselectdata;
-    // datas.forEach(data=>{
-    //   LogUtil.debug("\t --- data="+JSON.stringify(data));
-    // });
-    // if(1==1) return;
 
     let set = new Set(); 
     datas = datas.filter((o)=>{
-      //if(o.data.type=="Folder") return false;
-      //if(o.data.type!="-v-") return false;
-      //if(o["children"]!=null) return false;
       if(o["children"]!=null && o["children"].length >0) return false;
-      //if(o["children"].length >0) return false;
-      if(set.has(o.data.path)) return false;
-      set.add(o.data.path);
+      let path = o.data.path;
+      let column = path;
+      column = column.replace("//","").replace("/","_");
+      if(path.includes("["))
+      {
+        path = path.split("[")[0] +"[*]"+ path.split("]")[1];
+        column = column.split("[")[0] +""+ column.split("]")[1];
+      } 
+      if(set.has(path)) return false; set.add(path);
+      o.data.path = path;
+      o.data.column = column;
       return true;
     });//dup 제거
 
@@ -113,69 +115,71 @@ export class AboutComponent implements OnInit {
 
     datas.forEach((o,i)=>{
       console.log("\t ---updateTable - "+ i +">"+ (Array.isArray(o)) +">"+ o +":"+ "#name="+o.data.name+ "#type="+o.data.type+ "#path="+o.data.path);//Flatted.stringify(k));
-      let mydata = {path:o.data.path,column:o.data["path"].replace("//","").replace("/","_"),columntype:'string'};
+      let path = o.data.path;
+      let column = o.data.column;
+      //if(path.includes("[")) path = path.split("[")[0] +"[*]"+ path.split("]")[1];
+      //let column = path.replace("//","").replace("/","_");
+      let mydata = {path:o.data.path,column:column,columntype:'string',pk:'N'};
       this.table.addData(mydata);
-
-      this.tableModel.data[i] = [];
-      headers.forEach((o2,i2)=>{
-        if(o2 == "columntype") this.tableModel.data[i].push(new TableItem({ data: "string" }));
-        else if(o2 == "column") {
-          let column = o.data["path"].replace("//","").replace("/","_");
-          this.tableModel.data[i].push(new TableItem({ data: column }));
-        }
-        else this.tableModel.data[i].push(new TableItem({ data: o.data[o2] }));
-      });
     });
 
-    //this.table.refreshTable();//안됨
-    this.table.addColumn();
+    this.table.addColumn();//this.table.refreshTable();//안됨
     console.log("---updateTable---"+ this.treetabledata.length +":"+ Flatted.stringify(this.treetabledata[1]["children"][1]));
   }
   ////////////////////////////////////////////////////////// alasql
-  clickTableCreate(event) {
-    let alldatas = [];
-    let header = this.tableModel['header'].map(o=>o['data']);
-    this.tableModel.data.forEach((o,i)=>{
-      let datas = this.tableModel['_data'][i].map(o=>{return o['data']});
-      for(let i2=0;i2<datas.length;i2++) alldatas.push({[header[i2]]:datas[i2]});
+  sql_createtable(event) {
+    let sql = "create table "+ this.sql_tablename +" (";
+    let datas = this.table.getData();
+    datas = datas.filter((o,i)=>{
+      if(i==0) return false;//0은 컬럼
+      if(o["column"] == null || o["column"].length<1) return false;//마지막은 공백
+      return true;
     });
-    console.log("\t #alldatas="+ JSON.stringify(alldatas));
-    alldatas = alldatas.filter(o=>{ if(o["column"]==null) return false; return true; });
-    console.log("\t #alldatas filter="+ JSON.stringify(alldatas));
-    let tablename = "xxx";
-    let sql = "create table "+ tablename +" (";
-    alldatas.forEach((o,i)=>{
+    datas.forEach((o,i)=>{
       sql = sql +" "+o["column"]+" string"
-      if(i != (alldatas.length-1)) sql = sql +",";
+      if(i != (datas.length-1)) sql = sql +",";
     });
     sql = sql + " ) ";
-    console.log("\t #alldatas sql="+ sql);
+    console.log("\t #sql_createtable sql="+ sql);
+    this.dblocal.createtable(sql);
   }
-  
-  ////////////////////////////////////////////////////////// table 
+  sql_insert(){
+    //console.log("\t #sql_insert this.editordata="+ this.editordata);
+    let datas = JSON.parse(this.editordata);
+    let tabledatas = this.table.getData();
+    tabledatas.shift();
+    tabledatas.pop();
+    //console.log("\t #sql_insert tabledatas="+ JSON.stringify(tabledatas));
 
+    let sql = "insert into "+ this.sql_tablename;
 
-  
-  tableModel = new TableModel();
-  initTable() {
-    this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
-    this.tableModel.data = [ [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })], [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })], [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })] ];
-  }
-  
-  selectData;
-  clickTableRow(event)
-  {
-    this.selectData = [];
-    let row = event.selectedRowIndex;
-    let header = event.model['header'].map(o=>o['data']);
-    let datas = event.model['_data'][row].map(o=>{return o['data']});
-    for(let i=0;i<datas.length;i++) this.selectData.push({key:header[i],value:datas[i]});
-  }
+    let sqlcolumn = "";
+    let columns = tabledatas.map(o=>o["column"]);
+    //console.log("\t #sql_insert columns="+ columns);
+    columns.forEach((column,i)=>{
+      if(i==0) sqlcolumn = column;
+      sqlcolumn = sqlcolumn +","+ column;
+    });
+    sqlcolumn = "("+sqlcolumn+")";
+    console.log("\t #sql_insert sqlcolumn="+ sqlcolumn);
 
-  clickTableClear(event) {
-    this.tableModel.header = [];
-    this.tableModel.data = [];
+    let sqlvalue = "";
+    let paths = tabledatas.map(o=>o["path"]);
+    //console.log("\t #sql_insert paths="+ paths);
+    paths.forEach((path,i)=>{
+      let searchs = JsonPathUtil.searchObjects(datas,path);
+      if(i==0) sqlvalue = searchs;
+      sqlvalue = sqlvalue +","+ searchs;
+    });
+    sqlvalue = "("+sqlvalue+")";
+    console.log("\t #sql_insert sqlvalue="+ sqlvalue);
   }
+  sql_select(){
+    let sql = "select * from "+ this.sql_tablename;
+    this.sql_table.setData(this.dblocal.select(sql));
+  }
+  sql_dbinfo(){ this.jsonToTree = this.dblocal.dbinfo(); }
+
   ////////////////////////////////////////////////////////// sub
   appdatasub = "/toclient/appdata";
   appdatareply = "-";
@@ -188,9 +192,9 @@ export class AboutComponent implements OnInit {
   clickKey(key){
     //this.mapclear();
     this.curKey = key;
-
-    this.tableModel.header = [];
-    this.tableModel.data = [];
+    this.table.clearData();
+    this.sql_table.clearData();
+    this.sql_tablename = "table_"+ key;
 
     let json = this.map.get(key);
     this.jsonObject = json;
@@ -257,34 +261,6 @@ export class AboutComponent implements OnInit {
       let json = JSON.parse(payload.body);
       let datatype = json["_type_"];
       if(this.map.has(datatype)==false) this.mapadd(datatype,json);
-
-
-      //{_type_=GAP_DATA, GAP={SRT=0, END=0, ERR=0}, TOTAL={SRT=0, END=0, ERR=0}, app=app-0, ver=v-0, count=69, time=2020-02-07 17:38:40}
-      //{_type_=PROCESS_DATA, datas=[{process=0, host=0, time=2020-02-07 17:39:30, cpu=0, memory=0}, {process=1, host=1, time=2020-02-07 17:39:30, cpu=1, memory=1}, {process=2, host=2, time=2020-02-07 17:39:30, cpu=2, memory=2}]}
-      // Object.keys(json).forEach((k,i)=>{//GAP,TOTAL
-      //   let data = json[k];
-      //   if(typeof data != 'object') return;//_type_,app
-      //   if(Array.isArray(data)==false)
-      //   {
-      //     Object.keys(data).forEach((k2,i2)=>{//SRT,END
-      //       let datatype = k+"."+k2;//GAP.SRT
-      //       let datakey = json["app"];
-      //       let datavalue = data[k2];
-      //       this.mapadd(datatype,datakey,datavalue);
-      //     });
-      //   }
-      //   else//array - datas
-      //   {
-      //     data.forEach((data2,i2)=>{//{process=0, host=0
-      //       Object.keys(data2).forEach((k3,i3)=>{//process,host,cpu
-      //         let datatype = k+"."+k3;//datas.cpu
-      //         let datakey = data2["process"]+"."+data2["host"];
-      //         let datavalue = data2[k3];
-      //         this.mapadd(datatype,datakey,datavalue);
-      //       });
-      //     });
-      //   }
-      // });
     });
   }
 
@@ -305,28 +281,5 @@ export class AboutComponent implements OnInit {
     this.mapadd("testobject",{id:"1",name:"11",address:"111"}); 
     this.mapadd("testarray",{root:[{id:"1",name:"11",address:"111"},{id:"2",name:"22",address:"222"}]}); 
   }
-
-  ////////////////////////////////////////////////////////// map 
-  // map : Map<string,Map<string,string>>;// = new Map();
-  // mapclear() { this.map.clear(); }
-  // mapchildclear() { this.map.forEach((k,v)=>{ k.clear(); }) }
-  // mapkeys(){ 
-  //   if(this.curKey != null && this.curKey != 'all') return [this.curKey];//tag가 선택되면 해당 tag만 리턴 > 오른쪽화면에 해당 tag만 표시
-  //   return Array.from(this.map.keys()); 
-  // }//if(this.map.size < 1) return []; 
-  // mapkeysall(){ return ["all"].concat(Array.from(this.map.keys())); }//if(this.map.size < 1) return []; 
-  // mapchildkeys(type) { return Array.from(this.map.get(type).keys()).sort(); }
-  // mapchildvalue(type,key){ return this.map.get(type).get(key); }
-  // mapadd(type,key,value) {
-  //   if(this.map.has(type)==false) { this.map.set(type,new Map<string,string>()); }
-  //   this.map.get(type).set(key,value);
-  // }
-  // mapinit() { 
-  //   this.map = new Map();
-  //   this.mapadd("ver","app1","v1"); this.mapadd("ver","app2","v2");
-  //   this.mapadd("uptime","app1","u1");
-  // }
-
-
 
 }

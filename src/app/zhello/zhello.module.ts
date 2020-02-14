@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ZhelloRoutingModule } from './zhello-routing.module';
 import { ZhelloAboutComponent } from './zhello-about/zhello-about.component';
-import { TagModule, CodeSnippetModule, TabsModule, ButtonModule } from 'carbon-components-angular';
+import { TagModule, CodeSnippetModule, TabsModule, ButtonModule, InputModule } from 'carbon-components-angular';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotTableModule } from '@handsontable/angular';
 import {TreeTableModule} from 'primeng/treetable';
@@ -14,6 +14,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
   declarations: [ZhelloAboutComponent],
   imports: [
     CommonModule,
+    InputModule,
     TagModule,
     ButtonModule,
     CodeSnippetModule,

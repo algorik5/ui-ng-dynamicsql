@@ -37,7 +37,9 @@ export class TableService {
 
   getId() { return this.hotId; }
   getData() { return this.hotDatas; }
+  //getDataOnly() { return this.hotDatas.shift(); }
   getConfig() { return this.hotSettings; }
+  setData(datas) { this.hotDatas = datas; }
 
   clearData() 
   { 
