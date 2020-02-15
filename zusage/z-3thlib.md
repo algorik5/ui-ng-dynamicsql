@@ -21,15 +21,6 @@
 - module.ts - NgScrollbarModule
 - html - <ng-scrollbar> ... </ng-scrollbar>
 
-# flatted - circular 에러
-- 사용하지마 - 출력값이 이상함
-- 내장되어 있음 - install 불필요
-- angular.json
-  - scripts : "node_modules/flatted/min.js",
-- ts : 
-  - declare var Flatted;
-  - Flatted.stringify(json);
-
 # ngx-json-viewer
 - npm install ngx-json-viewer
 - module.ts : NgxJsonViewerModule 
@@ -45,18 +36,6 @@
   - declare var defiant
   - let searches = defiant.search(this.testdata,path);//없으면 [] 리턴(무조건 array리턴)
 - (참고) JsonPathUtil.ts
-
-# hansometable
-- *** 주의 - 데이터 변경시 2번 클릭해야 데이터가 반영됨
-- npm install handsontable @handsontable/angular
-- styles.scss : @import '~handsontable/dist/handsontable.full.css';
-- module.ts : HotTableModule
-- html
-  - <hot-table [hotId]="hotId" [settings]="hotSettings" [data]="hotDatas" licenseKey="non-commercial-and-evaluation"></hot-table>
-- ts
-  - hotId = "id-1";
-  - hotSettings:Handsontable.GridSettings = { rowHeaders:true,stretchH:"all" };
-  - hotDatas = [{id:1,name:'name1'},{id:2,name:'name2'}];
 
 # alasql (불가-alasql-angular)
 - npm install alasql
@@ -114,3 +93,29 @@
     this.treetablecolumns = Object.keys(this.treetabledata[0]["data"]);
   }
   ```
+
+
+----------------------------------------------------------------- 참고
+
+
+
+----------------------------------------------------------------- 사용안함
+# flatted - circular 에러 - 사용하지마 - 출력값이 이상함
+- 내장되어 있음 - install 불필요
+- angular.json
+  - scripts : "node_modules/flatted/min.js",
+- ts : 
+  - declare var Flatted;
+  - Flatted.stringify(json);
+
+# hansometable
+- *** 주의 - 데이터 변경시 2번 클릭해야 데이터가 반영됨
+- npm install handsontable @handsontable/angular
+- styles.scss : @import '~handsontable/dist/handsontable.full.css';
+- module.ts : HotTableModule
+- html
+  - <hot-table [hotId]="hotId" [settings]="hotSettings" [data]="hotDatas" licenseKey="non-commercial-and-evaluation"></hot-table>
+- ts
+  - hotId = "id-1";
+  - hotSettings:Handsontable.GridSettings = { rowHeaders:true,stretchH:"all" };
+  - hotDatas = [{id:1,name:'name1'},{id:2,name:'name2'}];

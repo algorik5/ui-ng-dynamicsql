@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import Handsontable from 'handsontable';
 import { LogUtil } from '../util/LogUtil';
+import { TableModel, TableHeaderItem, TableItem } from 'carbon-components-angular';
+import { ObjectUtil } from '../util/ObjectUtil';
+import { JsonPathUtil } from '../util/JsonPathUtil';
 
 @Injectable({
   providedIn: 'root'
@@ -12,91 +15,80 @@ export class TableService {
   //////////////////////////////// 사용법
   /*
     ///////// html
-    <hot-table [hotId]="getTableId()" [settings]="getTableConfig()" [data]="getTableData()" licenseKey="non-commercial-and-evaluation"></hot-table>
+    <ibm-table [model]="getTableModel()" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="tableSelectRow($event)"> </ibm-table>
 
     ///////// ts
-  getTableId() { return this.table.getId(); }
-  getTableConfig() { return this.table.getConfig(); }
-  getTableData() { return this.table.getData(); }
-  refreshTable() { this.table.refreshTable(); }
-  ...
-  this.table.clearData();
-  forEach... this.table.addData(mydata);
-  this.table.addColumn();
+    getTableModel() { return this.table.getTableModel(); }
+    ...
+    this.table.clearTable();
+    datas.forEach({...
+      if(i==0) this.table.setColumn(mydata);
+      this.table.addData(mydata);
   */
 
-  //////////////////////////////// hansometable
-  hotId = "id-1";
-  hotDatas = [];//[{id:1,name:'name1'},{id:2,name:'name2'}];
-  hotSettings:Handsontable.GridSettings = 
+  private tableModel = new TableModel();
+  getTableModel() { return this.tableModel; }//this.test_data(); }
+  getDataLength() { return this.tableModel.data.length; }
+  //getData() { return this.tableModel.data; }
+  //setData(datas) { this.tableModel.data = datas; }
+  getData() 
   { 
-    //data:this.hotDatas,
-    rowHeaders:true,//(or [a,b,c]
-    stretchH:"all"
-  };
-
-  getId() { return this.hotId; }
-  getData() { return this.hotDatas; }
-  //getDataOnly() { return this.hotDatas.shift(); }
-  getConfig() { return this.hotSettings; }
-  setData(datas) { this.hotDatas = datas; }
-
-  clearData() 
-  { 
-    LogUtil.debug("=== table clearData start #length="+ this.hotDatas.length);
-    this.hotDatas = []; 
-    //LogUtil.debug("=== table clearData end #length="+ this.hotDatas.length);
+    LogUtil.debug("=== table getData start #length="+this.tableModel.data.length);//+ Object.keys(data));
+    let datas = [];
+    let headers = this.tableModel.header.map(o=>o["data"]);//{"visible":true,"sorted":false,"sortable":true,"filterCount":0,"rowSpan":1,"colSpan":1,"style":{},"_ascending":true,"data":"path","filterData":{"data":""}}
+    //LogUtil.debug("=== headers="+headers);
+    this.tableModel.data.forEach((o,i)=>{
+      //LogUtil.debug("\t === data forEach #i="+i+"#o="+JSON.stringify(o));//[{"rowSpan":1,"colSpan":1,"data":"//id"},{"rowSpan":1,"colSpan":1,"data":"id"},{"rowSpan":1,"colSpan":1,"data":"string"},{"rowSpan":1,"colSpan":1,"data":"N"}]
+      if(o == null || Object.keys(o).length < 1) return;//첫번째 row는 빈값이네 ...
+      let dataarray = o.map(o2=>o2["data"]);
+      //LogUtil.debug("=== dataarray="+dataarray);
+      let data = {}; headers.forEach((o,i)=>data[o]=dataarray[i]);//{col1:v1,col2:v2...}
+      datas.push(data);
+    });
+    LogUtil.debug("=== table getData end   #datas="+ JSON.stringify(datas));//+ Object.keys(data));
+    return datas;//[{col1=x,col2=...}]
   }
-  refreshTable() //주의 - clear한 후 add하면 화면에 값표시가 안됨 - 다른 이벤트에서 add를 한번더해야 값 표시됨
-  {
-    LogUtil.debug("=== table refreshTable length="+ this.hotDatas.length);
-    if(this.hotDatas.length > 0)
-     {
-       let empty = {};
-       let last = this.hotDatas[this.hotDatas.length - 1];
-       //let lastv = last[Object.keys(last)[0]];
-       //if(lastv==null || lastv.length < 1) return;//헐 add가 안되면 화면 표시 안됨
-       Object.keys(last).forEach(o=>{ empty[o] = "" });
-       this.addData(empty);
-     }
+
+  getColumn() {
+    let headers = this.tableModel.header.map(o=>o["data"]);//{"visible":true,"sorted":false,"sortable":true,"filterCount":0,"rowSpan":1,"colSpan":1,"style":{},"_ascending":true,"data":"path","filterData":{"data":""}}
+    return headers;//['a','b'...]
   }
-  addColumn() 
+  setColumn(data) //{id:1,name:'name1'}
   {
-    LogUtil.debug("=== table addColumn start #length="+ this.hotDatas.length);
-    if(this.hotDatas.length < 1) return;
-    let columns = {}; Object.keys(this.hotDatas[0]).forEach(k=>{ columns[k] = k; });
-    this.hotDatas = [columns].concat(this.hotDatas);
-    //this.hotDatas.push(columns);
-    //LogUtil.debug("=== table addColumn end #data="+ JSON.stringify(data));
-  }//{id:1,name:'name1'}
+    LogUtil.debug("=== table setColumn start #columns="+data);//+ Object.keys(data));
+    this.tableModel.header = [];
+    Object.keys(data).forEach(o => {
+      this.tableModel.header.push(new TableHeaderItem({ data: o }));
+    });
+  }
   addData(data)//{id:1,name:'name1'}
   {
     LogUtil.debug("=== table addData start #data="+ JSON.stringify(data));
-    //this.hotDatas.push(data);//push는 안됨
-    this.hotDatas = this.hotDatas.concat(data);
+    let tablerow = [];
+    ObjectUtil.values(data).forEach(o2=>{ tablerow.push(new TableItem({ data: o2 })) });
+    this.tableModel.data.push(tablerow);
+  }
 
-    //LogUtil.debug("=== table addData end #data="+ JSON.stringify(data));
+  clearTable() 
+  { 
+    LogUtil.debug("=== table clearTable start # ");
+    this.tableModel.header = [];
+    this.tableModel.data = [];
+  }
+
+  findData(path)
+  {
+    let datas = this.getData();
+    let searchs = JsonPathUtil.searchObjects(datas,path);
+    LogUtil.debug("=== table findData #path="+ path +"#searchs="+searchs);
+    return searchs;
   }
 
 
 
-  //////////////////////////////// test data
-  test_adddata() { 
-    this.hotDatas = [{id:1,name:'name1'},{id:2,name:'name2'}];  
+  /////////////////////////////// test data
+  test_data() {
+    this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
+    this.tableModel.data = [ [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })], [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })], [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })] ];
   }
-  no = 0;
-  test_adddata2() { 
-    this.no++;
-    let data = {id:this.no,name:'name-'+this.no};
-    this.hotDatas = this.hotDatas.concat(data);
-    LogUtil.debug("=== test_adddata2="+ JSON.stringify(this.hotDatas));
-  }
-
-  clickChangeData(evnet) { 
-    //this.hotDatas = [{idz:1,namez:'name111',desc:'desc111'},{idz:2,namez:'name222',desc:'desc222'},{idz:3,namez:'name333',desc:'desc333'}]; 
-    let datas = [{id:1,name:'name111',desc:'desc111'},{id:2,name:'name222',desc:'desc222'},{id:3,name:'name333',desc:'desc333'}]; 
-    let columns = {}; Object.keys(datas[0]).forEach(k=>{ columns[k] = k; });
-    //this.hotDatas = [columns].concat(datas);
-  }
-    
 }
