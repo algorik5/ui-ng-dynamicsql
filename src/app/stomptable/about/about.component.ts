@@ -147,7 +147,6 @@ export class AboutComponent implements OnInit {
     this.jsonObject = "createtable-"+ rs;
   }
   sql_insert(){
-    let editordata = JSON.parse(this.editordata);
     let datas = this.table.getData();
     let columns = datas.map(o=>o["columnname"]);
 
@@ -162,26 +161,52 @@ export class AboutComponent implements OnInit {
     let sql = "insert into "+ this.sql_tablename +" ("+sqlcolumn +") values ("+ sqlvalue +")";
     console.log("\t #sql_insert sql="+ sql);
 
-    //let pkpath = this.table.findData("//*[pk='Y']");
-    let pkpath = JsonPathUtil.searchObjects(datas,"//*[pk='Y']/path");
-    LogUtil.debug("=== 1 #pkpath="+ JSON.stringify(pkpath));
-    if(pkpath == null || pkpath.length<1) pkpath = datas.find(data=>data["path"].includes("[*]")).map(data=>data["path"]);
-    LogUtil.debug("=== 2 #pkpath="+ JSON.stringify(pkpath));
-    if(pkpath == null || pkpath.length<1) pkpath = datas[0]["path"];
-    LogUtil.debug("=== 3 #pkpath="+ JSON.stringify(pkpath));
+    /////////////////// pkpath
+    let pkpath = datas[0]["path"];//첫번째 path
+    let pkpatchsearchs = JsonPathUtil.searchObjects(datas,"//*[pk='Y']/path");//1.pk path
+    if(pkpatchsearchs != null && Object.keys(pkpatchsearchs).length>0) pkpath = pkpatchsearchs["path"];
+    else
+    {
+      let data = datas.find(data=>data["path"].includes("[*]"));//2.array path
+      if(data != null && Object.keys(data).length>0) pkpath = data["path"];
+      LogUtil.debug("=== 2 #pkpath="+ JSON.stringify(pkpath));// +"#data="+JSON.stringify(data));
+    }
 
-    let sqldata = {};
-    let paths = datas.map(o=>o["path"]);
-    paths.forEach((path,i)=>{
-      let searchs = JsonPathUtil.searchObjects(editordata,path);
-      let column = columns[i];
-      let value = (searchs==null||searchs.length<1) ? "":searchs[0];
-      sqldata[column] = value;
+    //////////////////// 
+    let editordata = JSON.parse(this.editordata);
+    let pkvalues = JsonPathUtil.searchObjects(editordata,pkpath);
+    LogUtil.debug("=== #pkpath="+ JSON.stringify(pkpath) +"#pkvalues="+ JSON.stringify(pkvalues));
+
+    let count = 0;
+    pkvalues.forEach((pk,pki)=>{
+      let sqldata = {};
+      let paths = datas.map(o=>o["path"]);
+      paths.forEach((path,pathi)=>{
+        let column = columns[pathi];
+        let searchs = JsonPathUtil.searchObjects(editordata,path);
+        let value = "";
+        if(searchs!=null&&searchs.length>0)
+        {
+          if(path.includes("[*]")) value = searchs[pki];
+          else value = searchs[0];//항목중 array아닌 경우
+        }
+        sqldata[column] = value;
+      });
+      console.log("\t #sql_insert sqldata=" + JSON.stringify(sqldata));
+      count = count + this.dblocal.insert_pstmt(sql,sqldata);
     });
-    console.log("\t #sql_insert sqldata=" + JSON.stringify(sqldata));
-
-    let rs = this.dblocal.insert_pstmt(sql,sqldata);
-    this.jsonObject = "insert-"+ rs;
+    this.jsonObject = "insert-"+ count;
+    // let sqldata = {};
+    // let paths = datas.map(o=>o["path"]);
+    // paths.forEach((path,i)=>{
+    //   let searchs = JsonPathUtil.searchObjects(editordata,path);
+    //   let column = columns[i];
+    //   let value = (searchs==null||searchs.length<1) ? "":searchs[0];
+    //   sqldata[column] = value;
+    // });
+    // console.log("\t #sql_insert sqldata=" + JSON.stringify(sqldata));
+    // let rs = this.dblocal.insert_pstmt(sql,sqldata);
+    // this.jsonObject = "insert-"+ rs;
   }
   sql_select(){
     let sql = "select * from "+ this.sql_tablename;
@@ -297,7 +322,7 @@ export class AboutComponent implements OnInit {
   mapinit() { 
     this.map = new Map();
     this.mapadd("testobject",{id:"1",name:"11",address:"111"}); 
-    this.mapadd("testarray",{root:[{id:"1",name:"11",address:"111"},{id:"2",name:"22",address:"222"}]}); 
+    this.mapadd("testarray",{type:"testarray",root:[{id:"1",name:"11",address:"111"},{id:"2",name:"22",address:"222"}]}); 
   }
 
 }

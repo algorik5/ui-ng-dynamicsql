@@ -26,6 +26,7 @@ export class TableService {
       this.table.addData(mydata);
   */
 
+  private debug = true;
   private tableModel = new TableModel();
   getTableModel() { return this.tableModel; }//this.test_data(); }
   
