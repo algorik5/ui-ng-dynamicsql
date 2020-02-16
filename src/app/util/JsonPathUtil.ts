@@ -11,6 +11,23 @@ export class JsonPathUtil {
         return searchs;
     }
 
+    /////////////////////// test
+    static testdata = {
+        "car": [
+            {"id": 10, "color": "silver", "name": "Volvo"}, {"id": 11, "color": "red",    "name": "Saab"},
+            {"id": 12, "color": "red",    "name": "Peugeot"}, {"id": 13, "color": "yellow", "name": "Porsche"}
+        ],
+        "bike": [ {"id": 20, "color": "black", "name": "Cannondale"}, {"id": 21, "color": "red",   "name": "Shimano"} ]
+    };
+    static searchTest()
+    {
+        let searchs = defiant.search(JsonPathUtil.testdata, '//car[color="yellow"]/name');
+        //let pkpathdata = JsonPathUtil.searchObjects(JsonPathUtil.testdata,"//*[pk='Y']/path");
+        console.log("--- searchTest #searchs="+ JSON.stringify(searchs));
+
+    }
+    
+
     // static searchFields(object,mypath,debugmsgs):any[]//항상 array리턴
     // {
     //   let fields = [];

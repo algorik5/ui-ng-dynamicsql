@@ -57,14 +57,12 @@ export class AboutComponent implements OnInit {
   sql_table = new TableService();
   sql_getTableModel() { return this.sql_table.getTableModel(); }
   
-  selectData;
   tableSelectRow(event)
   {
-    this.selectData = [];
-    let row = event.selectedRowIndex;
-    let header = event.model['header'].map(o=>o['data']);
-    let datas = event.model['_data'][row].map(o=>{return o['data']});
-    for(let i=0;i<datas.length;i++) this.selectData.push({key:header[i],value:datas[i]});
+    let data = this.table.getSelectDataByEvent(event);
+    data["pk"] = data["pk"]=="N" ? "Y":"N";
+    LogUtil.debug("--- tableSelectRow #data="+ JSON.stringify(data));//+ Object.keys(data));
+    this.table.changeData(event.selectedRowIndex,data);
   }
 
 
@@ -164,7 +162,13 @@ export class AboutComponent implements OnInit {
     let sql = "insert into "+ this.sql_tablename +" ("+sqlcolumn +") values ("+ sqlvalue +")";
     console.log("\t #sql_insert sql="+ sql);
 
-    let pkpath = this.table.findData("//*[pk='Y']");
+    //let pkpath = this.table.findData("//*[pk='Y']");
+    let pkpath = JsonPathUtil.searchObjects(datas,"//*[pk='Y']/path");
+    LogUtil.debug("=== 1 #pkpath="+ JSON.stringify(pkpath));
+    if(pkpath == null || pkpath.length<1) pkpath = datas.find(data=>data["path"].includes("[*]")).map(data=>data["path"]);
+    LogUtil.debug("=== 2 #pkpath="+ JSON.stringify(pkpath));
+    if(pkpath == null || pkpath.length<1) pkpath = datas[0]["path"];
+    LogUtil.debug("=== 3 #pkpath="+ JSON.stringify(pkpath));
 
     let sqldata = {};
     let paths = datas.map(o=>o["path"]);

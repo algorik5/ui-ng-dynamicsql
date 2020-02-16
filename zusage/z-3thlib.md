@@ -119,3 +119,17 @@
   - hotId = "id-1";
   - hotSettings:Handsontable.GridSettings = { rowHeaders:true,stretchH:"all" };
   - hotDatas = [{id:1,name:'name1'},{id:2,name:'name2'}];
+
+###### table/grid 목록 https://jspreadsheets.com/
+- --(jquery) w2ui - http://w2ui.com/web/demos/#!utils	http://w2ui.com/web/demo/utils
+- **(pivot) agGrid - https://www.ag-grid.com/
+- *http://tabulator.info/docs/4.5/frameworks#angular
+=== https://www.ag-grid.com/angular-grid/
+	npm install ag-grid-community ag-grid-angular
+=== http://tabulator.info/docs/4.5/frameworks#angular
+	***https://github.com/olifolkerd/tabulator/issues/1509
+	npm install tabulator-tables
+	import Tabulator from 'tabulator-tables';
+
+
+
