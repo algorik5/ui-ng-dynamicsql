@@ -150,6 +150,7 @@ export class AboutComponent implements OnInit {
     let datas = this.table.getData();
     let columns = datas.map(o=>o["columnname"]);
 
+    /////////////////// pstmt
     let sqlcolumn = "";
     let sqlvalue = "";
     columns.forEach((column,i)=>{
@@ -172,7 +173,7 @@ export class AboutComponent implements OnInit {
       LogUtil.debug("=== 2 #pkpath="+ JSON.stringify(pkpath));// +"#data="+JSON.stringify(data));
     }
 
-    //////////////////// 
+    //////////////////// binding vaue
     let editordata = JSON.parse(this.editordata);
     let pkvalues = JsonPathUtil.searchObjects(editordata,pkpath);
     LogUtil.debug("=== #pkpath="+ JSON.stringify(pkpath) +"#pkvalues="+ JSON.stringify(pkvalues));
@@ -183,12 +184,12 @@ export class AboutComponent implements OnInit {
       let paths = datas.map(o=>o["path"]);
       paths.forEach((path,pathi)=>{
         let column = columns[pathi];
-        let searchs = JsonPathUtil.searchObjects(editordata,path);
         let value = "";
+        let searchs = JsonPathUtil.searchObjects(editordata,path);
         if(searchs!=null&&searchs.length>0)
         {
-          if(path.includes("[*]")) value = searchs[pki];
-          else value = searchs[0];//항목중 array아닌 경우
+          if(path.includes("[*]")) value = searchs[pki];//array인 경우
+          else value = searchs[0];//array아닌 경우
         }
         sqldata[column] = value;
       });
@@ -196,17 +197,6 @@ export class AboutComponent implements OnInit {
       count = count + this.dblocal.insert_pstmt(sql,sqldata);
     });
     this.jsonObject = "insert-"+ count;
-    // let sqldata = {};
-    // let paths = datas.map(o=>o["path"]);
-    // paths.forEach((path,i)=>{
-    //   let searchs = JsonPathUtil.searchObjects(editordata,path);
-    //   let column = columns[i];
-    //   let value = (searchs==null||searchs.length<1) ? "":searchs[0];
-    //   sqldata[column] = value;
-    // });
-    // console.log("\t #sql_insert sqldata=" + JSON.stringify(sqldata));
-    // let rs = this.dblocal.insert_pstmt(sql,sqldata);
-    // this.jsonObject = "insert-"+ rs;
   }
   sql_select(){
     let sql = "select * from "+ this.sql_tablename;

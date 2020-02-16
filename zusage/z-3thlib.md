@@ -132,4 +132,5 @@
 	import Tabulator from 'tabulator-tables';
 
 
+ng-bootstrap
 

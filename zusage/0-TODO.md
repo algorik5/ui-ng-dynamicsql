@@ -1,7 +1,4 @@
 
-npm install @carbon/charts @carbon/charts-angular d3
-- https://www.carbondesignsystem.com/data-visualization/getting-started/angular/
-- https://carbon-design-system.github.io/carbon-charts/angular/?path=/story/line--line-time-series
 
 
 
@@ -11,35 +8,21 @@ npm install @carbon/charts @carbon/charts-angular d3
 
 
 
-샘플 테이블/데이터 - swagger>makesampledata
+
+
+
+
+
+
+
+
+
+
+
+
+--샘플 테이블/데이터 - swagger>makesampledata
     server  host/time/cpu/mem
     process process/args/host/cpu/time
-
-sql view(hansometable)/chart
-    좌 - sql/x/y/legend
-    우 - chart/table
-
-stomp view(hansometable)/chart
-
-
-
-
-
-
-create table
-insert table
-select > view
-
-====== 무조건 alasql에 넣기 > 무조건 alasql에서 조회
-============ stomp      > alasql    > chart/table
-============ sql select > alasql    > chart/table
-
-
-
-
-
-
-
 --이슈 - ibm-table이 scroll이 이상함 - 크기가 커짐 ...
 	아마도 dynamic으로 크기가 변하면 안되는 듯
 	primeng scroll
