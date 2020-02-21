@@ -131,6 +131,13 @@
 	npm install tabulator-tables
 	import Tabulator from 'tabulator-tables';
 
+# 기타
+- fuse.js - fuzzy search
+- hammerjs - 제스처
+
+
+
+
 
 ng-bootstrap
 

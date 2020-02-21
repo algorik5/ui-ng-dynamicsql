@@ -10,7 +10,8 @@ export class StringUtil
   static contains(str:string) { return str.includes("XXX"); }
   static replace(str:string) { return str.replace("XXX",""); }
   static replaceAll(str:string,oldstr,newstr) 
-  { 
+  {
+    //retirm str.replace(/xx/g,"")//주의-쿼테이션없음
     return str.split(oldstr).join(newstr); //return str.split('/').join('X'); 
     //return str.replace(new RegExp(oldstr), newstr);
     //return str.replace(/oldstr/g, newstr)

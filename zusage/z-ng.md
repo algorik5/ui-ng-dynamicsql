@@ -28,6 +28,26 @@
 	~왼쪽크기 고정 - min-width,max-width
 	~주의-항상 cell안에 넣어야함
 
+# 기타
+- ngfor=...this.var 가능
+- ngcontainer ngif=advancedsearch...
+- pretty json - strigify obj,null,2
+  - (O) carbon textarea
+  - (X) primeng/quill rich editor
+
+# 에러
+- ambient context - package.json > ng 8 사용
+
+# typescript
+- 디폴트값 - let xxx||0
+- arguments.callee.toString() > strict ?
 
 
+
+# rich editor 
+- primeng(quill.js)  
+- npm install quill  
+- styles - quoll.core.css,quill.snow.css  
+- imports editormodule  
+- <p-editor ngmodel=editordata style=height:100px
 

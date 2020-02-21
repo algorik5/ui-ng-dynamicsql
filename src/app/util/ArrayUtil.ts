@@ -3,14 +3,37 @@ import { groupBy, mergeMap, toArray } from 'rxjs/operators';
 
 export class ArrayUtil
 {
-    static removeDup(obj):any[] { return Array.from(new Set(obj)); }
-    
-    //[1,3,2]
-    static topN(obj,top):any[] { return obj.sort((old,cur)=>cur-old).slice(0,top); }
-    //[{a:1},{b:3},{c:2}] 값으로 sort + top
-    static topNvalue(obj,top,valueindex):any[] { return obj.sort((old,cur)=>cur[valueindex]-old[valueindex]).slice(0,top); }
+    static zzz_arrayToObject(obj)//아직 테스트안함
+    {
+        //~ array to object - object.keys.foreach...o[v]=v (기타-object.assign)
+        return Object.keys(obj).forEach(o=>o[v]=v);
+    }
+    static zzz_foreach(arr) { arr.forEach((o,index)=>{}); }
 
-    static objectToArray(obj):any[] { return (<any[]>obj); }
+    static addFirst(arr,str) { 
+        //array 맨앞에 넣기 - ["first"].concat(arr)
+        return [str].concat(arr);
+    }
+
+    static removeDup(arr):any[] { return Array.from(new Set(arr)); }
+    
+    static sort(arr) { arr.sort(); }//주의 - 리턴값 아님  -그냥 호출하면 sort됨
+    static sortstring(arr) { arr.sort((old,cur)=>Number(cur)-Number(old)); }
+    static groupby(arr) 
+    {
+        //reduce로 테스트 
+    }
+    //[1,3,2]
+    static topN(arr,top):any[] { return arr.sort((old,cur)=>cur-old).slice(0,top); }
+    //[{a:1},{b:3},{c:2}] 값으로 sort + top
+    static topNvalue(arr,top,valueindex):any[] { return arr.sort((old,cur)=>cur[valueindex]-old[valueindex]).slice(0,top); }
+
+    static objectToArray(obj):any[] 
+    { 
+        //return Array.from(obj);
+        //return [...arr]
+        return (<any[]>obj); 
+    }
 
     static contains() {
         let arr = [1,2,3];
