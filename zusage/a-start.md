@@ -10,6 +10,18 @@
 - (***) packages.json : core-js(3.2.1)
 - ng serve
 
+# ng config
+- (NG9 ?) ng config schematics.@schematics/angular.component.skipTests false
+- ng config schematics.@schematics/angular.module.spec false
+- ng config schematics.@schematics/angular.component.spec false
+- ng config schematics.@schematics/angular.service.spec false
+- ng config schematics.@schematics/angular.pipe.spec false
+- ng config schematics.@schematics/angular.guard.spec false
+- ng config schematics.@schematics/angular.directive.spec false
+- ng config schematics.@schematics/angular.class.spec false
+
+
+
 # 테스트 페이지 추가
 - ng g m zhello --routing
 - ng g c zhello/zhello-about --skipTests=true

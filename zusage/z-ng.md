@@ -1,3 +1,7 @@
+# typescript playground
+- https://www.typescriptlang.org/play/
+
+
 # service는 모듈 사용하지 않음
 - ng g s aservices/stomp
 - constructor(private stomp:StompService)

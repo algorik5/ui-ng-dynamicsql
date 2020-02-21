@@ -2,6 +2,7 @@ export class StringUtil
 {
   static substringBefore(str:string,separator:string) { return str.split(separator)[0]; }
   static substringAfter(str:string,separator:string) { return str.split(separator)[1]; }
+  static substringAfterLast(str:string,separator:string) { let split = str.split(separator); return split[split.length-1]; }
   static substringBetween(str:string,start:string,end:string) { return str.split(start)[1] + str.split(end)[0]; }
   static substringBetweenReverse(str:string,start:string,end:string) { return str.split(start)[0] + str.split(end)[1]; }
 

@@ -10,7 +10,7 @@ import { JsonPathUtil } from '../util/JsonPathUtil';
 })
 export class TableService {
 
-  constructor() { }
+  constructor() { this.test_data(); }
 
   //////////////////////////////// 사용법
   /*
@@ -18,12 +18,18 @@ export class TableService {
     <ibm-table [model]="getTableModel()" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="tableSelectRow($event)"> </ibm-table>
 
     ///////// ts
+    constructor(private table:TableService)
     getTableModel() { return this.table.getTableModel(); }
     // 입력
     this.table.clearTable();
     datas.forEach({...
       if(i==0) this.table.setColumn(mydata);
       this.table.addData(mydata);
+
+    ///////// 주의
+    ~constructor에서 사용하면 singleton이므로 모든 화면에서 데이터 공유됨
+    ~2개의 TableService를 사용하고 싶으면 new TableService() 사용
+
   */
 
   private debug = true;

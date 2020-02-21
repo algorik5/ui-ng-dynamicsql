@@ -1,5 +1,8 @@
 export class MapUtil
 {
+    static keysToArray(map:Map<any,any>) { return Array.from(map.keys()); }
+    static valuesToArray(map:Map<any,any>) { return Array.from(map.values()); }
+
     static createMap():Map<string,number>
     {
         let mymap:Map<string,number> = new Map();

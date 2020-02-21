@@ -3,6 +3,13 @@ import { groupBy, mergeMap, toArray } from 'rxjs/operators';
 
 export class ArrayUtil
 {
+    static removeDup(obj):any[] { return Array.from(new Set(obj)); }
+    
+    //[1,3,2]
+    static topN(obj,top):any[] { return obj.sort((old,cur)=>cur-old).slice(0,top); }
+    //[{a:1},{b:3},{c:2}] 값으로 sort + top
+    static topNvalue(obj,top,valueindex):any[] { return obj.sort((old,cur)=>cur[valueindex]-old[valueindex]).slice(0,top); }
+
     static objectToArray(obj):any[] { return (<any[]>obj); }
 
     static contains() {

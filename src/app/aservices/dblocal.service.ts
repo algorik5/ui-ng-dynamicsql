@@ -24,6 +24,11 @@ export class DblocalService {
     LogUtil.debug("=== dbinfo === "+ alasql.databases);
     return alasql.databases;//alasql.databases alasql.databases.alasql alasql.tables 
   }
+  dbtables()
+  {
+    if(alasql.tables == null) return [];
+    return Object.keys(alasql.tables);
+  }
 
   createtable(sql:string)
   {

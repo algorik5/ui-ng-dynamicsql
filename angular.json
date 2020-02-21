@@ -131,6 +131,32 @@
           }
         }
       }
-    }},
-  "defaultProject": "ui-ng-dynamicsql"
+    }
+  },
+  "defaultProject": "ui-ng-dynamicsql",
+  "schematics": {
+    "@schematics/angular": {
+      "module": {
+        "spec": false
+      },
+      "component": {
+        "spec": false
+      },
+      "service": {
+        "spec": false
+      },
+      "pipe": {
+        "spec": false
+      },
+      "guard": {
+        "spec": false
+      },
+      "directive": {
+        "spec": false
+      },
+      "class": {
+        "spec": false
+      }
+    }
+  }
 }
