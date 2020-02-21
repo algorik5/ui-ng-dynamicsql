@@ -23,7 +23,7 @@
 --샘플 테이블/데이터 - swagger>makesampledata
     server  host/time/cpu/mem
     process process/args/host/cpu/time
---이슈 - ibm-table이 scroll이 이상함 - 크기가 커짐 ...
+--이슈 - ibm-table이 scroll이 이상함 - 크기가 커짐 ... 
 	아마도 dynamic으로 크기가 변하면 안되는 듯
 	primeng scroll
 --이슈 - Flatted.stringify(k2) <<< 항상 최상위를 출력하는군
