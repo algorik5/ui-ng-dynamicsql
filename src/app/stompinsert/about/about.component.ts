@@ -26,7 +26,6 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.mapinit();
-    this.inittreetabledata();
   }
 
   ////////////////////////////////////////////////////////// connect 
@@ -45,7 +44,7 @@ export class AboutComponent implements OnInit {
   editorToTree()
   {
     let json = JSON.parse(this.editordata);
-    this.jsonToTree(json);
+    //this.jsonToTree(json);
     this.editordatavalid = "valid";
   }
 
@@ -66,69 +65,6 @@ export class AboutComponent implements OnInit {
   }
 
 
-  /////////////////////////// treetable/primeng
-  treetablecolumns = [];
-  treetabledata = [];
-  inittreetabledata(){
-    this.treetabledata = 
-    [ 
-      { "data":{ "name":"Documents", "value":"75kb", "type":"Folder","path":"//Documents" }
-        ,"children":
-        [
-          { "data":{ "name":"Work", "value":"55kb", "type":"Folder","path":"//Documents/Work" }
-          ,"children":[{ "data":{ "name":"Expenses.doc", "value":"30kb", "type":"Document","path":"//Documents/Work/Expenses.doc",} }, { "data":{ "name":"Resume.doc", "value":"25kb", "type":"Resume","path":"//Documents/Work/Resume.doc" } }]}, 
-          { "data":{ "name":"Home", "value":"20kb", "type":"Folder","path":"//Documents/Home" }
-          ,"children":[ { "data":{ "name":"Invoices", "value":"20kb", "type":"Text","path":"//Home/Work/Invoices" } } ] } 
-        ] }, 
-      { "data":{ "name":"Pictures", "value":"150kb", "type":"Folder","path":"//Pictures" }
-      ,"children":[ { "data":{ "name":"barcelona", "value":"90kb", "type":"Picture","path":"//Pictures/barcelona" } }, { "data":{ "name":"primeui", "value":"30kb", "type":"Picture","path":"//Pictures/primeui" } }, { "data":{ "name":"primeui", "value":"30kb", "type":"Picture","path":"//Pictures/primeui" } } ] } 
-    ];
-    this.treetablecolumns = Object.keys(this.treetabledata[0]["data"]);//
-  }
-  treetableselectdata = [];//TreeNode[];
-  treetableselectdatakeys(){ if(this.treetableselectdata == null || this.treetableselectdata.length < 1) return []; return Object.keys(this.treetableselectdata[0].node); }
-  //clicktreecheck(data,value) { alert("---clicktreecheck---"+JSON.stringify(data) +"#"+value); }
-  onNodeSelect(event) { this.updateTable(); }
-  onNodeUnselect(event) { this.updateTable(); };
-  onHeaderCheckboxToggle(event) { this.updateTable(); }//전체 체크
-  updateTable(){
-    console.log("--------------updateTable start ---"+ (Array.isArray(this.treetableselectdata)) +":"+ Flatted.stringify(this.treetableselectdata));
-    
-    let datas = this.treetableselectdata;
-
-    let set = new Set(); 
-    datas = datas.filter((o)=>{
-      if(o["children"]!=null && o["children"].length >0) return false;
-      let path = o.data.path;
-      let column = path;
-      column = column.replace("//","").replace("/","_");
-      if(path.includes("["))
-      {
-        path = path.split("[")[0] +"[*]"+ path.split("]")[1];
-        column = column.split("[")[0] +""+ column.split("]")[1];
-      } 
-      if(set.has(path)) return false; set.add(path);
-      o.data.path = path;
-      o.data.column = column;
-      return true;
-    });//dup 제거
-
-    if(datas == null || datas.length < 1) return;
-    this.table.clearTable();
-
-    datas.forEach((o,i)=>{
-      //console.log("\t ---updateTable - "+ i +">"+ (Array.isArray(o)) +">"+ o +":"+ "#name="+o.data.name+ "#type="+o.data.type+ "#path="+o.data.path);//Flatted.stringify(k));
-      let path = o.data.path;
-      let column = o.data.column;
-      //if(path.includes("[")) path = path.split("[")[0] +"[*]"+ path.split("]")[1];
-      //let column = path.replace("//","").replace("/","_");
-      let mydata = {path:o.data.path,columnname:column,columntype:'string',pk:'N'};
-      if(i==0) this.table.setColumn(mydata);
-      this.table.addData(mydata);
-    });
-
-    console.log("--------------updateTable end   ---"+ this.table.getDataLength());
-  }
   ////////////////////////////////////////////////////////// alasql
   sql_tablename = "-";
   sql_createtable(event) {
@@ -233,49 +169,7 @@ export class AboutComponent implements OnInit {
     this.jsonObject = json;
 
     this.setEditordata(json);
-    this.jsonToTree(json);
-  }
-  jsonToTree(json)
-  {
-    this.treetabledata = [];
-    this.treetableselectdata = [];
-
-    LogUtil.debug("==== jsonToTree json="+JSON.stringify(json));
-    this.treetablecolumns = ["name","value","type","path"];
-      //{_type_=GAP_DATA, GAP={SRT=0, END=0, ERR=0}, TOTAL={SRT=0, END=0, ERR=0}, app=app-0, ver=v-0, count=69, time=2020-02-07 17:38:40}
-      //{_type_=PROCESS_DATA, datas=[{process=0, host=0, time=2020-02-07 17:39:30, cpu=0, memory=0}, {process=1, host=1, time=2020-02-07 17:39:30, cpu=1, memory=1}, {process=2, host=2, time=2020-02-07 17:39:30, cpu=2, memory=2}]}
-      Object.keys(json).forEach((k,i)=>{//type,GAP,TOTAL
-        let data = json[k];
-        let path = "//"+k;
-        if(typeof data != 'object') { this.treetabledata.push({data:{name:k,type:'-v-',path:path,value:data},children:[]}); return; }
-        if(Array.isArray(data)==false)
-        {
-          let nextindex = this.treetabledata.push({data:{name:k,type:'-root-',path:path,value:k},children:[]});
-          let current = this.treetabledata[nextindex-1];
-          this.treetabledata_addchild(current,data,path);
-        }
-        else//array - datas
-        {
-          let path = "//"+k;//datas
-          let nextindex = this.treetabledata.push({data:{name:k,type:'-root-',path:path,value:k},children:[]});
-          let current = this.treetabledata[nextindex-1];
-          data.forEach((data2,i2)=>{//{process=0, host=0
-            console.log("---data.foreach # "+ JSON.stringify(data2));
-            if(typeof data2 != 'object') { this.treetabledata.push({data:{name:data2,type:'-v-',path:path,value:data2},children:[]}); return; }
-            let path2 = path+"["+i2+"]";
-            let nextindex2 = current["children"].push({data:{name:i2,type:'-i-',path:path2,value:i2},children:[]});
-            let current2 = current["children"][nextindex2-1];
-            this.treetabledata_addchild(current2,data2,path2);
-          });
-        }
-      });
-  }
-  treetabledata_addchild(parent,data,parentpath)
-  {
-    Object.keys(data).forEach((k,i)=>{
-      let path = parentpath+"/"+k;
-      parent["children"].push({data:{name:k,type:'-v-',path:path,value:data[k]}});
-    });
+   //this.jsonToTree(json);
   }
 
   clickAppdataSub()

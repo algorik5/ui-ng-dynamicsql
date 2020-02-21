@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotTableModule } from '@handsontable/angular';
-import { TreeTableModule } from 'primeng/treetable/treetable';
+import { TreeTableModule } from 'primeng/treetable';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgxEchartsModule } from 'ngx-echarts';
 
