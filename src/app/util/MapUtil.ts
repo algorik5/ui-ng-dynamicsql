@@ -1,7 +1,9 @@
 export class MapUtil
 {
-    static keysToArray(map:Map<any,any>) { return Array.from(map.keys()); }
-    static valuesToArray(map:Map<any,any>) { return Array.from(map.values()); }
+    ///////////////////// map.service로 이동
+
+    // static keysToArray(map:Map<any,any>) { return Array.from(map.keys()); }
+    // static valuesToArray(map:Map<any,any>) { return Array.from(map.values()); }
 
     static createMap():Map<string,number>
     {

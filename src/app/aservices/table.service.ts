@@ -119,6 +119,10 @@ export class TableService {
   /////////////////////////////// test data
   test_data() {
     this.tableModel.header = [new TableHeaderItem({ data: 'id' }), new TableHeaderItem({ data: 'name' })];
-    this.tableModel.data = [ [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })], [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })], [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })] ];
+    this.tableModel.data = [ 
+      [new TableItem({ data: 'id-1' }), new TableItem({ data: 'Name 1' })], 
+      [new TableItem({ data: 'id-3' }), new TableItem({ data: 'Name 2' })], 
+      [new TableItem({ data: 'id-2' }), new TableItem({ data: 'Name 3' })] 
+    ];
   }
 }
