@@ -15,6 +15,7 @@ const routes: Routes = [
 	,{path: 'sqlchart',loadChildren: () => import('./sqlchart/sqlchart.module').then(m => m.SqlchartModule)}
 
 	,{path: 'stomptable',loadChildren: () => import('./stomptable/stomptable.module').then(m => m.StomptableModule)}
+	,{path: 'stompinsert',loadChildren: () => import('./stompinsert/stompinsert.module').then(m => m.StompinsertModule)}
 	,{path: 'stompchart',loadChildren: () => import('./stompchart/stompchart.module').then(m => m.StompchartModule)}
 ];
 

@@ -24,8 +24,8 @@
 
 # 테스트 페이지 추가
 - ng g m zhello --routing
-- ng g c zhello/zhello-about --skipTests=true
-- zhello-routing.module.ts > { path: '',component: ZhelloAboutComponent }
+- ng g c zhello/about
+- zhello-routing.module.ts > { path: '',component: AboutComponent }
 - app-routing.module.ts > {path: 'zhello',loadChildren: () => import('./zhello/zhello.module').then(m => m.ZhelloModule)}
 - header.component.html > [route]="['zhello']"
 

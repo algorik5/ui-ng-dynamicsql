@@ -3,11 +3,11 @@ import { groupBy, mergeMap, toArray } from 'rxjs/operators';
 
 export class ArrayUtil
 {
-    static zzz_arrayToObject(obj)//아직 테스트안함
-    {
-        //~ array to object - object.keys.foreach...o[v]=v (기타-object.assign)
-        return Object.keys(obj).forEach(o=>o[v]=v);
-    }
+    // static zzz_arrayToObject(obj)//아직 테스트안함
+    // {
+    //     //~ array to object - object.keys.foreach...o[v]=v (기타-object.assign)
+    //     //return Object.keys(obj).forEach(o=>o[v]=v); 
+    // }
     static zzz_foreach(arr) { arr.forEach((o,index)=>{}); }
 
     static addFirst(arr,str) { 

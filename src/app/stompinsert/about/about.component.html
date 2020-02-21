@@ -1,0 +1,109 @@
+<div class="row" id="irqq">
+    <div class="cell" id="it8t">
+      <div class="row">
+        <div class="cell" id="width300">
+          <div id="ix0se">
+            <input ibmText [(ngModel)]="wsurl"/>
+            <button ibmButton="secondary" size="sm" (click)="clickConnect($event)">Connect</button>
+            &nbsp; <button ibmButton="secondary" size="sm" (click)="clickDisconnect($event)">Disconnect</button>
+            <ibm-tag type="blue">connect={{isConnected()}}</ibm-tag>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iqq8k">
+          <div id="i9grr">
+            <input ibmText [(ngModel)]="appdatasub"/>
+            <button ibmButton="secondary" size="sm" (click)="clickAppdataSub($event)">Sub</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataStop($event)">Stop</button>
+            &nbsp;<button ibmButton="secondary" size="sm" (click)="clickAppdataClear($event)">Clear</button>
+            <ibm-tag type="blue">time={{appdatatime}}</ibm-tag>
+            <ibm-tag type="blue">data={{appdatareply}}</ibm-tag>
+        
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="iu3x9">
+          <div id="id3yi">
+            <ibm-tag [type]="tagColor(key)" *ngFor='let key of mapkeys()' (click)='clickKey(key)'>{{key}}</ibm-tag>
+              
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="cell" id="ie2y">
+        <div class="row" id="i3tm">
+          <div class="cell" id="ib7j">
+            <button ibmButton="secondary" size="sm" (click)="editorToTree($event)">apply tree</button>
+            <ibm-tag >valid={{editordatavalid}}</ibm-tag>
+            <textarea ibmTextArea [rows]="editorrows" [(ngModel)]="editordata"></textarea>
+          </div>
+        </div>
+        <div class="row" id="i3tm">
+        <div class="cell" id="ib7j">
+
+          <ng-scrollbar>
+            <p-treeTable [value]="treetabledata" selectionMode="checkbox" [(selection)]="treetableselectdata" (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)" (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)">
+              <ng-template pTemplate="caption">
+                <div style="text-align:left"> 
+                  <p-treeTableHeaderCheckbox></p-treeTableHeaderCheckbox> 
+                  <span style="margin-left: .25em; vertical-align: middle">Toggle All</span> 
+                </div>
+             </ng-template>
+              <ng-template pTemplate="header" let-columns> 
+                  <tr> 
+                      <th *ngFor="let col of treetablecolumns"> {{col}} </th> 
+                  </tr> 
+              </ng-template>
+              <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                  <tr>
+                      <td *ngFor="let col of treetablecolumns; let i = index">
+                          <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                          <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0"></p-treeTableCheckbox>
+                          <!-- <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0" (click)="clicktreecheck(rowData)"></p-treeTableCheckbox> -->
+                          {{rowData[col]}}
+                      </td>
+                  </tr>
+              </ng-template>
+            </p-treeTable>        
+          </ng-scrollbar>  
+        </div>
+      </div>
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+            <div fxLayout="row" fxLayoutAlign="start">
+                <input ibmText [(ngModel)]="sql_tablename"/>
+                <button ibmButton="secondary" size="sm" (click)="sql_createtable()">createtable</button>
+                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_insert()">insert</button>
+                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_select()">select</button>
+                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_dbinfo()">dbinfo</button>
+            </div>
+    
+
+              <ng-scrollbar> 
+                <ibm-table [model]="getTableModel()" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="tableSelectRow($event)"> </ibm-table>
+              </ng-scrollbar>
+
+        </div>
+      </div>
+      <div class="row" id="impx">
+        <div class="cell" id="ipj4">
+              <ng-scrollbar> 
+                <ibm-table [model]="sql_getTableModel()" size="sm" showSelectionColumn="false" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="sql_tableSelectRow($event)"> </ibm-table>
+              </ng-scrollbar>
+
+        </div>
+      </div>
+
+      <div class="row" id="impx1">
+        <div class="cell" id="ipj41">
+          <ng-scrollbar>
+            <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
+          </ng-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>

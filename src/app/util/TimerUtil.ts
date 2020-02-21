@@ -6,7 +6,7 @@ export class TimerUtil
     {
         //rxjs timer - mytimer=timer(1000,10000); mytimer.subscribe(count=>alert...
         let mytimer = timer(1000,1000);
-        mytimer.suscribe(count=>{
+        mytimer.subscribe(count=>{
             console.log("======== mytimer # "+ count);
         });
 
