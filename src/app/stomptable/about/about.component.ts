@@ -10,6 +10,7 @@ import { TableService } from 'src/app/aservices/table.service';
 import { StringUtil } from 'src/app/util/StringUtil';
 import { DblocalService } from 'src/app/aservices/dblocal.service';
 import { JsonPathUtil } from 'src/app/util/JsonPathUtil';
+import { FileService } from 'src/app/aservices/file.service';
 
 declare var Flatted;
 
@@ -21,7 +22,8 @@ declare var Flatted;
 export class AboutComponent implements OnInit {
 
   constructor(private log:LogService,private stomp:StompService
-    ,private table:TableService,private dblocal:DblocalService) { 
+    ,private table:TableService,private dblocal:DblocalService
+    ,private file:FileService) { 
   }
 
   ngOnInit() {
@@ -212,6 +214,22 @@ export class AboutComponent implements OnInit {
     });
   }
   sql_dbinfo(){ this.jsonObject = this.dblocal.dbinfo(); }
+  ////////////////////////////////////////////////////////// json file read/write
+  sql_savefile()
+  {
+
+  }
+  sql_readfile()
+  {
+    // console.log("===FILE serverjson # "+ JSON.stringify(serverjson));
+    // this.jsonObject = serverjson;
+      this.file.read("assets/table_mapping/server.json")
+      .subscribe((filedata) => { 
+        console.log("====FILE read  # "+ JSON.stringify(filedata));
+        this.jsonObject = filedata;
+      });
+
+  }
 
   ////////////////////////////////////////////////////////// sub
   appdatasub = "/toclient/appdata";

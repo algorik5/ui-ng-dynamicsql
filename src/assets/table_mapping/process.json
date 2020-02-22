@@ -1,0 +1,12 @@
+{
+  "msgtype": "process",
+  "table": "table_process",
+  "columns":
+  [ 
+      { "column":"host", "path":"//host", "pk":"Y" },
+      { "column":"process", "path":"//process", "pk":"Y" },
+      { "column":"time", "path":"//time", "pk":"N" },
+      { "column":"cpu", "path":"//cpu", "pk":"N" },
+      { "column":"memory", "path":"//memory", "pk":"N" }
+  ]
+}

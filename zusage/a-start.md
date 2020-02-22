@@ -3,7 +3,7 @@
 - ng new ui-ng-dynamicsql --routing --style=scss
 - cd ui-ng-dynamicsql
 - npm install
-- npm install --save carbon-components-angular carbon-components @carbon/icons-angular
+- npm install carbon-components-angular carbon-components @carbon/icons-angular
 - src/style.scss <<< @import "~carbon-components/scss/globals/scss/styles.scss";
 - src/assets/* 전체복사
 - src/app 전체복사/덮어쓰기
@@ -22,7 +22,7 @@
 
 
 
-# 테스트 페이지 추가
+# hello
 - ng g m zhello --routing
 - ng g c zhello/about
 - zhello-routing.module.ts > { path: '',component: AboutComponent }

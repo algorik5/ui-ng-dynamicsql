@@ -24,6 +24,7 @@
 # 개발 표준
 - 항상 type을 선언하라 > str:string ...
 - 모든 로직은 service로 생성하라 (또는 utilclass+static함수)
+  - service에 HttpClient를 사용하려면 app.module.ts에 HttpClientModule에 등록해야 함
 - layout 주의
 	~왼쪽크기 고정 - min-width,max-width
 	~주의-항상 cell안에 넣어야함

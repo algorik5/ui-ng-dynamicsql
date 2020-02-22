@@ -29,7 +29,7 @@
     "@types/echarts": "^4.4.3",
     "alasql": "^0.5.5",
     "carbon-components": "^10.9.3",
-    "carbon-components-angular": "^3.38.0",
+    "carbon-components-angular": "^3.40.6",
     "core-js": "^3.2.1",
     "d3": "^5.15.0",
     "defiant.js": "^2.2.6",

@@ -76,10 +76,12 @@
         <div class="cell" id="ipj4">
             <div fxLayout="row" fxLayoutAlign="start">
                 <input ibmText [(ngModel)]="sql_tablename"/>
-                <button ibmButton="secondary" size="sm" (click)="sql_createtable()">createtable</button>
-                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_insert()">insert</button>
-                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_select()">select</button>
-                &nbsp; <button ibmButton="secondary" size="sm" (click)="sql_dbinfo()">dbinfo</button>
+                <button ibmButton="secondary" size="sm" (click)="sql_savefile()">savefile</button>
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="sql_readfile()">readfile</button>
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="sql_createtable()">createtable</button>
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="sql_insert()">insert</button>
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="sql_select()">select</button>
+                &nbsp;<button ibmButton="secondary" size="sm" (click)="sql_dbinfo()">dbinfo</button>
             </div>
     
 
