@@ -79,20 +79,7 @@ export class ZhelloAboutComponent implements OnInit {
     LogUtil.debug("clickDBInsert end #count="+count);
 
   }
-  clickDBInsert_pstmt(event) {
-    //실패 - 향후
-    // //let pstmt = this.db.compile("insert into test1 values (:id,:name)");
-    // //let pstmt = this.db.compile("insert into test1 values (?,?)");
-    // alasql("create table test1 (id int primary key,name string )");
-    // let pstmt = alasql.compile("insert into test1 values (?,?)");
-    // [11,12,13].forEach(k=>{
-    //   pstmt(k,"data-"+k);
-    //   //pstmt([k,"data-"+k]);
-    //   //pstmt({id:k,name:"data-"+k});
-    //   LogUtil.debug("\t - pstmt #rs="+this.rs);
-    // });
-    // LogUtil.debug("clickDBInsert end ");
-  }
+  clickDBInsert_pstmt(event) {}
   clickDBSelect(event) {
     LogUtil.debug("clickDBSelect start ");
     this.rs = this.db.exec("select * from test1 order by id");//==alasql(create ...)
@@ -110,7 +97,41 @@ export class ZhelloAboutComponent implements OnInit {
     LogUtil.debug("clickDBSelectToHansometable end #rs="+this.rs);
   }
 
-
+  //////////////////////////////// indexeddb
+  clickStoreGet(event)
+  {
+    LogUtil.debug("clickStoreGet start ");
+    let data = localStorage.getItem("key1");
+    LogUtil.debug("clickStoreGet end #data="+data);
+    LogUtil.debug("clickStoreSet end #length="+ localStorage.length);
+  }
+  clickStoreSet(event)
+  {
+    this.no++;
+    LogUtil.debug("clickStoreSet start #no="+this.no);
+    localStorage.setItem("key1", "data-1"+this.no);
+    LogUtil.debug("clickStoreSet end #length="+ localStorage.length);
+  }
+  clickStoreRemove(event)
+  {
+    LogUtil.debug("clickStoreRemove start ");
+    localStorage.removeItem("key1");
+    LogUtil.debug("clickStoreRemove end #length="+ localStorage.length);
+  }
+  clickStoreClear(event)
+  {
+    LogUtil.debug("clickStoreClear start ");
+    localStorage.clear();
+    LogUtil.debug("clickStoreClear end #length="+ localStorage.length);
+  }
+  clickStoreDatas()
+  {
+    for (let i = 0; i < localStorage.length; i++){
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      console.log(key, value);
+    }
+  }
 
   /////////////////////////// treetable/primeng
   treetablecolumns = [];

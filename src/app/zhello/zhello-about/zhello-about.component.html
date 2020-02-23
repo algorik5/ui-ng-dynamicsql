@@ -39,6 +39,20 @@
                 
     </ibm-tab>
 
+    <ibm-tab heading="indexeddb">
+        <ibm-tag type="blue" (click)='clickStoreGet(event)'>Store Get</ibm-tag>
+        <ibm-tag type="blue" (click)='clickStoreSet(event)'>Store Set</ibm-tag>
+        <ibm-tag type="blue" (click)='clickStoreRemove(event)'>Store Remove</ibm-tag>
+        <ibm-tag type="blue" (click)='clickStoreClear(event)'>Store Clear</ibm-tag>
+        <ibm-tag type="blue" (click)='clickStorePrint(event)'>Store Print</ibm-tag>
+        <h4>result=========================</h4>
+        <ngx-json-viewer [json]="rs" [expanded]="true"></ngx-json-viewer>
+        <h4>db=========================</h4>
+        <ngx-json-viewer [json]="db" [expanded]="true"></ngx-json-viewer>
+    </ibm-tab>
+
+
+
     <ibm-tab heading="treetable/primeng">
         <p-treeTable [value]="treetabledata">
             <ng-template pTemplate="header" let-columns> 
