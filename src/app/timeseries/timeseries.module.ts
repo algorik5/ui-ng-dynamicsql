@@ -9,8 +9,7 @@ import { HotTableModule } from '@handsontable/angular';
 import { TreeTableModule } from 'primeng/treetable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgScrollbarModule } from 'ngx-scrollbar';
-//import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [TimeseriesAboutComponent],
@@ -31,8 +30,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     NgxJsonViewerModule,
     HotTableModule,
     TreeTableModule,
-    NgScrollbarModule,
-    //ScrollingModule,
+    ScrollingModule,
     TimeseriesRoutingModule
   ]
 })

@@ -9,6 +9,8 @@ export class ArrayUtil
     //     //return Object.keys(obj).forEach(o=>o[v]=v); 
     // }
     static zzz_foreach(arr) { arr.forEach((o,index)=>{}); }
+    static zzz2_foreach(strs) { for(let str of strs) {}; }
+    static zzz3_foreach(strs) { for(let i in strs) {}; }
 
     static addFirst(arr,str) { 
         //array 맨앞에 넣기 - ["first"].concat(arr)

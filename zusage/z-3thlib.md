@@ -16,6 +16,10 @@
 - (주의) carbon input,button을 1row에 표현하려면 ng flex사용해야 함(또는 carbon grid/row/col 등으로 표현)
 
 # scroll bar (ngx-scrollbar 또는 cdk virtual scroll)
+- (결론) cdk scroll로 변경 (사용하다보니 ngx-scrollbar는 ambient context 발생)
+  - import { ScrollingModule } from '@angular/cdk/scrolling';
+  - <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh"></cdk-virtual-scroll-viewport>
+- ------------ 아래는 무시
 - npm i ngx-scrollbar @angular/cdk@8.2.3
   - (주의) @angular/cdk 9버젼은 에러 >>> An accessor cannot be declared in an ambient context==>tyscript version 문제인듯
 - module.ts - NgScrollbarModule

@@ -59,26 +59,26 @@
             </div>
     
 
-              <ng-scrollbar> 
-                <ibm-table [model]="getTableModel()" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="tableSelectRow($event)"> </ibm-table>
-              </ng-scrollbar>
+            <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh">
+              <ibm-table [model]="getTableModel()" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="tableSelectRow($event)"> </ibm-table>
+            </cdk-virtual-scroll-viewport>
 
         </div>
       </div>
       <div class="row" id="impx">
         <div class="cell" id="ipj4">
-              <ng-scrollbar> 
-                <ibm-table [model]="sql_getTableModel()" size="sm" showSelectionColumn="false" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="sql_tableSelectRow($event)"> </ibm-table>
-              </ng-scrollbar>
+          <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh">
+            <ibm-table [model]="sql_getTableModel()" size="sm" showSelectionColumn="false" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="sql_tableSelectRow($event)"> </ibm-table>
+          </cdk-virtual-scroll-viewport>
 
         </div>
       </div>
 
       <div class="row" id="impx1">
         <div class="cell" id="ipj41">
-          <ng-scrollbar>
+          <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh">
             <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
-          </ng-scrollbar>
+          </cdk-virtual-scroll-viewport>
         </div>
       </div>
     </div>

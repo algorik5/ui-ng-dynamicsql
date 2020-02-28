@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotTableModule } from '@handsontable/angular';
 import { TreeTableModule } from 'primeng/treetable';
-import { NgScrollbarModule } from 'ngx-scrollbar';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 
@@ -19,7 +19,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     CommonModule,
     TagModule, CodeSnippetModule, TabsModule, InputModule, SearchModule, ButtonModule, TableModule, GridModule, StructuredListModule,FileUploaderModule,
     FormsModule, ReactiveFormsModule, HttpClientModule,
-    NgxJsonViewerModule, HotTableModule, TreeTableModule, NgScrollbarModule, NgxEchartsModule,
+    NgxJsonViewerModule, HotTableModule, TreeTableModule, ScrollingModule, NgxEchartsModule,
     StomptableRoutingModule
   ]
 })

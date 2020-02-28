@@ -37,13 +37,11 @@
       <div class="row">
         <div class="cell" id="height300">
 
-        <!-- <ng-scrollbar> -->
           <div fxLayout="row" fxLayoutAlign="space-between">
             <button ibmButton="secondary" size="sm" (click)='chartclear()'>clear</button>
             &nbsp; <button ibmButton="secondary" size="sm" (click)='chartadddatatest()'>testdata</button>
           </div>
           <div echarts [options]="chartoptions" (chartInit)="chartinit($event)"></div>
-          <!-- </ng-scrollbar> -->
 
         </div>
       </div>
@@ -58,9 +56,9 @@
 
       <div class="row" id="impx1">
         <div class="cell" id="ipj41">
-          <ng-scrollbar>
+          <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh">
             <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
-          </ng-scrollbar>
+          </cdk-virtual-scroll-viewport>
         </div>
       </div>
     </div>

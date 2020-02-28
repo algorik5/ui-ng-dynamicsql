@@ -9,8 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotTableModule } from '@handsontable/angular';
 import { TreeTableModule } from 'primeng/treetable';
-import { NgScrollbarModule } from 'ngx-scrollbar';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [JsontreeAboutComponent],
@@ -28,10 +27,10 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ScrollingModule,
     NgxJsonViewerModule,
     HotTableModule,
     TreeTableModule,
-    NgScrollbarModule,
     JsontreeRoutingModule
   ]
 })

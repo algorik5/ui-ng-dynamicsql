@@ -75,9 +75,9 @@
             <!-- 느림 <ngx-json-viewer [json]="treetableselectdata" [expanded]="true"></ngx-json-viewer> -->
             <ibm-tabs [followFocus]="followFocus" [isNavigation]="isNavigation">
               <ibm-tab heading="table">
-              <ng-scrollbar>
-                <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
-              </ng-scrollbar>
+                <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh">
+                  <ibm-table [model]="tableModel" size="sm" showSelectionColumn="true" striped="true" sortable="true" enableSingleSelect="true" (selectRow)="clickTableRow($event)"> </ibm-table>
+                </cdk-virtual-scroll-viewport>
             </ibm-tab>
             <ibm-tab heading="data">
               ...
@@ -89,9 +89,9 @@
 
       <div class="row" id="impx1">
         <div class="cell" id="ipj41">
-          <ng-scrollbar>
+          <cdk-virtual-scroll-viewport itemSize="50" style="height: 50vh">
             <ngx-json-viewer [json]="jsonObject" [expanded]="true"></ngx-json-viewer>
-          </ng-scrollbar>
+          </cdk-virtual-scroll-viewport>
         </div>
       </div>
     </div>

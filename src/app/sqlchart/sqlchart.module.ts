@@ -9,7 +9,7 @@ import { HotTableModule } from '@handsontable/angular';
 import { TreeTableModule } from 'primeng/treetable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgScrollbarModule } from 'ngx-scrollbar';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
@@ -28,10 +28,10 @@ import { NgxEchartsModule } from 'ngx-echarts';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ScrollingModule,
     NgxJsonViewerModule,
     HotTableModule,
     TreeTableModule,
-    NgScrollbarModule,
     NgxEchartsModule,
     SqlchartRoutingModule
   ]

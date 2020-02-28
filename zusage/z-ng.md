@@ -36,6 +36,7 @@
   - (O) carbon textarea
   - (X) primeng/quill rich editor
 
+
 # 에러
 - ambient context - package.json > ng 8 사용
 
@@ -52,3 +53,5 @@
 - imports editormodule  
 - <p-editor ngmodel=editordata style=height:100px
 
+# 향후
+- ng access html  - #xxx @viewchild(xxx,...  - #xxx this.xxx.nativeelement... - <ng-template #xxx @viewchild(xxx) xxx:temateref
