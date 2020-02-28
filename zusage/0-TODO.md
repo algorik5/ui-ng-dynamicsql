@@ -3,7 +3,10 @@
 
 
 ======================== stomp insert
-msg to db
+left : sub,msgtype,tablelist
+right : 
+
+msg to alasql
 
 
 
@@ -21,6 +24,7 @@ msg to db
 
 
 
+--------- ng9은 나중에 - carbon-v9이 아직 2.x버젼
 
 --샘플 테이블/데이터 - swagger>makesampledata
     server  host/time/cpu/mem
