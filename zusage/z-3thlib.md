@@ -36,7 +36,7 @@
 # defiant.js
 - npm install defiant.js
 - angular.json
-  - scripts : node_modules\defiant.js\dist\defiant.js
+  - scripts : node_modules/defiant.js/dist/defiant.js
 - ts
   - declare var defiant
   - let searches = defiant.search(this.testdata,path);//없으면 [] 리턴(무조건 array리턴)
