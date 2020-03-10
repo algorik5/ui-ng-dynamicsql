@@ -41,6 +41,7 @@
   - declare var defiant
   - let searches = defiant.search(this.testdata,path);//없으면 [] 리턴(무조건 array리턴)
 - (참고) JsonPathUtil.ts
+- (기타) jsonQ(2년)
 
 # alasql (불가-alasql-angular)
 - npm install alasql
