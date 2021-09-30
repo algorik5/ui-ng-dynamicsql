@@ -34,7 +34,7 @@
     "d3": "^5.15.0",
     "defiant.js": "^2.2.6",
     "echarts": "^4.6.0",
-    "handsontable": "^7.3.0",
+    "handsontable": "^10.0.0",
     "ngx-echarts": "^4.2.2",
     "ngx-json-viewer": "^2.4.0",
     "primeicons": "^2.0.0",
